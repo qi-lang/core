@@ -2,7 +2,7 @@
   "name": "qi-lang-core",
   "version": "0.0.1",
   "description": "Qi Lang Core",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/qi-lang/core.git",
   "author": "zana-a <zana200.a@gmail.com>",
   "license": "MIT",
@@ -10,12 +10,19 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
+    "concurrently": "^6.2.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.0",
+    "shx": "^0.3.3",
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "format": "eslint */**.ts --fix"
-  }
+    "format": "eslint */**.ts --fix",
+    "tidy": "yarn format && shx rm -rf dist",
+    "clean": "yarn tidy && shx rm node_modules",
+    "build": "yarn tidy && tsc",
+    "dev": "yarn tidy && concurrently -k -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc --watch\" \"nodemon dist/index.js\""
+  },
+  "dependencies": {}
 }
