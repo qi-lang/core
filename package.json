@@ -13,7 +13,9 @@
     "concurrently": "^6.2.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.24.0",
+    "nodemon": "^2.0.12",
     "shx": "^0.3.3",
     "typescript": "^4.3.5"
   },
@@ -22,7 +24,12 @@
     "tidy": "yarn format && shx rm -rf dist",
     "clean": "yarn tidy && shx rm node_modules",
     "build": "yarn tidy && tsc",
-    "dev": "yarn tidy && concurrently -k -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc --watch\" \"nodemon dist/index.js\""
+    "watch": "concurrently -k -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc --watch\" \"nodemon dist/index.js\"",
+    "dev": "yarn tidy && yarn build && yarn watch"
   },
-  "dependencies": {}
+  "dependencies": {
+    "consola": "^2.15.3",
+    "fp-ts": "^2.11.1",
+    "parser-ts": "^0.6.14"
+  }
 }
