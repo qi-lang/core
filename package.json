@@ -22,7 +22,7 @@
   "scripts": {
     "format": "eslint */**.ts --fix",
     "tidy": "yarn format && shx rm -rf dist",
-    "clean": "yarn tidy && shx rm node_modules",
+    "clean": "yarn tidy && shx rm -rf node_modules",
     "build": "yarn tidy && tsc",
     "watch": "concurrently -k -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc --watch\" \"nodemon dist/index.js\"",
     "dev": "yarn tidy && yarn build && yarn watch"
