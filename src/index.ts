@@ -1,5 +1,5 @@
 import consola from 'consola';
-import ident from './parser/ident';
+import { stream as ST } from 'parser-ts';
+import number from './parser/symbols/number';
 
-const res = ident('Hello');
-consola.log(res);
+consola.log(number(ST.stream([...'d'])));
