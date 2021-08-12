@@ -20,4 +20,6 @@ const combined = P.sequenceOf([
   ])),
 ]).map((x) => x.join(''));
 
-export const Ident = combined.map((body) => new Structures.Ident(body));
+const Ident = combined.map((body) => new Structures.Ident(body as string));
+
+export default Ident;
