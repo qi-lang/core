@@ -1,4 +1,4 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const LeftBracket = C.char('[');
-export const RightBracket = C.char(']');
+export const LeftBrackets = P.str('[');
+export const RightBrackets = P.str(']');

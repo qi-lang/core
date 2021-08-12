@@ -1,5 +1,3 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Colon = C.char(':');
-
-export default Colon;
+export const Colon = P.str(':');

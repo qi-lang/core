@@ -1,7 +1,7 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const BackSlash = S.string('\\');
-export const DoubleBackSlash = S.string('\\\\');
+export const BackSlash = P.str('\\');
+export const DoubleBackSlash = P.str('\\\\');
 
-export const ForwardSlash = S.string('/');
-export const DoubleForwardSlash = S.string('//');
+export const ForwardSlash = P.str('/');
+export const DoubleForwardSlash = P.str('//');

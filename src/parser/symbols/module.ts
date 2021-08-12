@@ -1,5 +1,3 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Module = S.string('module');
-
-export default Module;
+export const Module = P.str('module');

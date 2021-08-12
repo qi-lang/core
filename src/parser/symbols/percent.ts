@@ -1,5 +1,3 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Percent = C.char('%');
-
-export default Percent;
+export const Percent = P.str('%');

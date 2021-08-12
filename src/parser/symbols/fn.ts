@@ -1,5 +1,3 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Fn = S.string('fn');
-
-export default Fn;
+export const Fn = P.str('fn');

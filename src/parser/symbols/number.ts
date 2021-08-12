@@ -1,30 +1,20 @@
-import { pipe, constant } from 'fp-ts/function';
-import { char as C, parser as P } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const Zero = C.char('0');
+export const Zero = P.str('0');
 
-const One = C.char('1');
-const Two = C.char('2');
-const Three = C.char('3');
-const Four = C.char('4');
-const Five = C.char('5');
-const Six = C.char('6');
-const Seven = C.char('7');
-const Eight = C.char('8');
-const Nine = C.char('9');
+export const Digit = P.choice([
+  P.str('1'),
+  P.str('2'),
+  P.str('3'),
+  P.str('4'),
+  P.str('5'),
+  P.str('6'),
+  P.str('7'),
+  P.str('8'),
+  P.str('9'),
+]);
 
-export const Digit = pipe(
-  One,
-  P.alt(constant(Two)),
-  P.alt(constant(Three)),
-  P.alt(constant(Four)),
-  P.alt(constant(Five)),
-  P.alt(constant(Six)),
-  P.alt(constant(Seven)),
-  P.alt(constant(Eight)),
-  P.alt(constant(Nine)),
-);
-
-const Number = P.either(Zero, constant(Digit));
-
-export default Number;
+export const Number = P.choice([
+  Zero,
+  Digit,
+]);

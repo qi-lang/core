@@ -1,10 +1,8 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-namespace Arrow {
+export namespace Arrow {
   export namespace Thin {
-    export const LeftArrow = S.string('<-');
-    export const RightArrow = S.string('->');
+    export const LeftArrow = P.str('<-');
+    export const RightArrow = P.str('->');
   }
 }
-
-export default Arrow;

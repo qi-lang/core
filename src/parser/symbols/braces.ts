@@ -1,4 +1,4 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const LeftBrace = C.char('{');
-export const RightBrace = C.char('}');
+export const LeftBrace = P.str('{');
+export const RightBrace = P.str('}');

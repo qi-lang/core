@@ -1,4 +1,4 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const SingleQuote = S.string('\'');
-export const DoubleQuote = S.string('"');
+export const SingleQuote = P.str('\'');
+export const DoubleQuote = P.str('"');

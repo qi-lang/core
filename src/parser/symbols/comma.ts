@@ -1,5 +1,3 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Comma = C.char(',');
-
-export default Comma;
+export const Comma = P.str(',');

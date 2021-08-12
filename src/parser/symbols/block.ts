@@ -1,4 +1,4 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const Do = S.string('do');
-export const End = S.string('end');
+export const Do = P.str('do');
+export const End = P.str('end');

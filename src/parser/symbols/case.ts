@@ -1,5 +1,3 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Case = S.string('case');
-
-export default Case;
+export const Case = P.str('case');

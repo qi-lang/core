@@ -1,5 +1,3 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Equal = C.char('=');
-
-export default Equal;
+export const Equal = P.str('=');

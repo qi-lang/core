@@ -1,5 +1,3 @@
-import { string as S } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const For = S.string('for');
-
-export default For;
+export const For = P.str('for');

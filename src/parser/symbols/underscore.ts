@@ -1,5 +1,3 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-const Underscore = C.char('_');
-
-export default Underscore;
+export const Underscore = P.str('_');

@@ -1,4 +1,4 @@
-import { char as C } from 'parser-ts';
+import * as P from 'arcsecond';
 
-export const LeftParenthesis = C.char('(');
-export const RightParenthesis = C.char(')');
+export const LeftParenthesis = P.str('(');
+export const RightParenthesis = P.str(')');
