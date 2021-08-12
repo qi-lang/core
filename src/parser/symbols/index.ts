@@ -16,5 +16,7 @@ export * from './number';
 export * from './parenthesis';
 export * from './percent';
 export * from './quotes';
+export * from './question';
+export * from './bang';
 export * from './slash';
 export * from './underscore';
