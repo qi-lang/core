@@ -7,6 +7,7 @@ import { LeftBracket, RightBracket } from './brackets';
 import Case from './case';
 import Colon from './colon';
 import Comma from './comma';
+import Equal from './equal';
 import Fn from './fn';
 import For from './for';
 import Module from './module';
@@ -51,4 +52,5 @@ export {
   ForwardSlash,
   DoubleForwardSlash,
   Underscore,
+  Equal,
 };
