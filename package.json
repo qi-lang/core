@@ -28,6 +28,7 @@
     "dev": "yarn tidy && yarn build && yarn watch"
   },
   "dependencies": {
+    "@types/node": "^16.6.0",
     "consola": "^2.15.3",
     "fp-ts": "^2.11.1",
     "parser-ts": "^0.6.14"
