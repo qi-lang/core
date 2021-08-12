@@ -1,7 +1,7 @@
 import { parser as P } from 'parser-ts';
 import { pipe, constant } from 'fp-ts/function';
 import * as Symbols from './symbols';
-import { createIdent } from '../structure/ident';
+import * as Structures from '../structure';
 
 const first = pipe(
   Symbols.Underscore,
@@ -23,7 +23,7 @@ const Ident = pipe(
       (xs) => P.of([x, ...xs]),
     ),
   ),
-  P.map((result: string[]) => createIdent(result.join(''))),
+  P.map((result: string[]) => new Structures.Ident(result.join(''))),
 );
 
 export default Ident;

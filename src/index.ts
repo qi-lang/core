@@ -15,7 +15,7 @@ function runner(path: string) {
 
   FS.readFile(Path.normalize(path), 'utf-8', (err, data) => {
     if (err) throw err;
-    result(run(Parsers.Binding, data.toString()));
+    result(run(Parsers.Atom, data.toString()));
   });
 }
 

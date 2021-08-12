@@ -1,21 +1,17 @@
+import Ident from './ident';
 import Kind from './kind';
-import Base from './base';
-import { Ident } from './ident';
 
-export class Binding implements Base {
+class Binding {
   public readonly _kind = Kind.Binding;
 
   public readonly ident: Ident;
 
-  // !TODO: Change any to something more specific
-  public readonly body: any;
+  public readonly body: string;
 
-  public constructor(ident: Ident, body: any) {
+  constructor(ident: Ident, body: string) {
     this.ident = ident;
     this.body = body;
   }
 }
 
-export function createBinding(ident: Ident, body: any) {
-  return new Binding(ident, body);
-}
+export default Binding;

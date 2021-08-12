@@ -1,6 +1,8 @@
 enum Kind {
   Ident,
-  Binding
+  Binding,
+  Bool,
+  Atom,
 }
 
 export default Kind;

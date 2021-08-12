@@ -1,7 +1,13 @@
-import { createIdent } from './ident';
-import { createBinding } from './binding';
+import Kind from './kind';
+import Ident from './ident';
+import Binding from './binding';
+import Atom from './type/atom';
+import Bool from './type/bool';
 
 export {
-  createIdent,
-  createBinding,
+  Kind,
+  Ident,
+  Binding,
+  Bool,
+  Atom,
 };
