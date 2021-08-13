@@ -20,3 +20,4 @@ export * from './question';
 export * from './bang';
 export * from './slash';
 export * from './underscore';
+export * from './period';

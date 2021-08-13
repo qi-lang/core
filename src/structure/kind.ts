@@ -3,6 +3,7 @@ enum Kind {
   Binding,
   Bool,
   Atom,
+  Number
 }
 
 export default Kind;

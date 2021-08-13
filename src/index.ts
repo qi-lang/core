@@ -1,8 +1,8 @@
 import consola from 'consola';
 // import * as Symbols from './parser/symbols';
-import Bool from './parser/type/bool';
+import Num from './parser/type/number';
 
-const res = Bool.run('false');
+const res = Num.run('123.2');
 
 if (res.isError) consola.error(res.error);
 else consola.log(res.result);
