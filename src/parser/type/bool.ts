@@ -7,5 +7,4 @@ const Bool = P.choice([
   Symbols.False,
 ]).map((result) => new Structures.Bool(result === 'true'));
 
-// Symbols.Bool.map((x) => new Structures.Bool(x === 'true'));
 export default Bool;

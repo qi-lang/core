@@ -1,8 +1,7 @@
-import consola from 'consola';
-// import * as Symbols from './parser/symbols';
-import Num from './parser/type/number';
+import * as util from 'util';
+import { List, Tuple } from './parser/type';
 
-const res = Num.run('123.2');
+const res = Tuple.run('(true, false, [])');
 
-if (res.isError) consola.error(res.error);
-else consola.log(res.result);
+if (res.isError) console.log(res.error);
+else console.log(res.result);

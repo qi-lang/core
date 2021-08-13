@@ -3,7 +3,9 @@ enum Kind {
   Binding,
   Bool,
   Atom,
-  Number
+  Number,
+  List,
+  Tuple
 }
 
 export default Kind;
