@@ -7,6 +7,7 @@ const Types = P.choice([
   Parsers.List,
   Parsers.Map,
   Parsers.Num,
+  Parsers.Tuple,
 ]);
 
 export default Types;

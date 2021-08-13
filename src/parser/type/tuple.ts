@@ -19,9 +19,9 @@ const value = P.recursiveParser(
 const item = P.sepBy(Parsers.Spacey(Symbols.Comma))(Parsers.Spacey(value));
 
 const List = P.sequenceOf([
-  Symbols.LeftParenthesis,
+  Symbols.LeftBrace,
   item,
-  Symbols.RightParenthesis,
+  Symbols.RightBrace,
 ]).map((x) => new Structures.Tuple(x[1]));
 
 export default List;

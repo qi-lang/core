@@ -7,11 +7,11 @@ import Map from './map';
 import Types from './types';
 
 export {
+  Tuple,
   Atom,
   Bool,
   Num,
   List,
-  Tuple,
   Map,
   Types,
 };
