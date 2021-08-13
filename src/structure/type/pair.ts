@@ -1,12 +1,18 @@
 import Kind from '../kind';
+import Atom from './atom';
+
+type KeyValue = {
+  key: Atom,
+  value: any,
+}
 
 class Pair {
   public readonly _kind = Kind.Pair;
 
   // !TODO: change type to something more useful.
-  public readonly body: Array<[any, any]>;
+  public readonly body: KeyValue;
 
-  constructor(body: Array<[any, any]>) {
+  constructor(body: KeyValue) {
     this.body = body;
   }
 }

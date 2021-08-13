@@ -6,9 +6,10 @@ class Binding {
 
   public readonly ident: Ident;
 
-  public readonly body: string;
+  // !TODO: change any to something more specific
+  public readonly body: any;
 
-  constructor(ident: Ident, body: string) {
+  constructor(ident: Ident, body: any) {
     this.ident = ident;
     this.body = body;
   }

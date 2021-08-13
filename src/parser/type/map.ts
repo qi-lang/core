@@ -27,7 +27,10 @@ const mapAtom = P.sequenceOf([
 const pair = P.sequenceOf([
   Parsers.Spacey(mapAtom),
   Parsers.Spacey(body),
-]).map((x) => new Structures.Pair(x));
+]).map((x) => new Structures.Pair({
+  key: x[0],
+  value: x[1],
+}));
 
 const items = P.sepBy(Parsers.Spacey(Symbols.Comma))(Parsers.Spacey(pair));
 

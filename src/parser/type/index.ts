@@ -4,6 +4,7 @@ import Num from './number';
 import List from './list';
 import Tuple from './tuple';
 import Map from './map';
+import Types from './types';
 
 export {
   Atom,
@@ -12,4 +13,5 @@ export {
   List,
   Tuple,
   Map,
+  Types,
 };
