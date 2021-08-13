@@ -6,6 +6,8 @@ import Bool from './type/bool';
 import Number from './type/number';
 import List from './type/list';
 import Tuple from './type/tuple';
+import Map from './type/map';
+import Pair from './type/pair';
 
 export {
   Kind,
@@ -16,4 +18,6 @@ export {
   Number,
   List,
   Tuple,
+  Map,
+  Pair,
 };

@@ -3,6 +3,7 @@ import Bool from './bool';
 import Num from './number';
 import List from './list';
 import Tuple from './tuple';
+import Map from './map';
 
 export {
   Atom,
@@ -10,4 +11,5 @@ export {
   Num,
   List,
   Tuple,
+  Map,
 };

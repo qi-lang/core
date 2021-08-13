@@ -5,7 +5,9 @@ enum Kind {
   Atom,
   Number,
   List,
-  Tuple
+  Tuple,
+  Map,
+  Pair
 }
 
 export default Kind;
