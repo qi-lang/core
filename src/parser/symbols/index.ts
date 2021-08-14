@@ -21,3 +21,5 @@ export * from './bang';
 export * from './slash';
 export * from './underscore';
 export * from './period';
+export * from './def';
+export * from './whitespace';

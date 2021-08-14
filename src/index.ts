@@ -9,7 +9,7 @@ import * as Fs from 'fs';
 import * as Path from 'path';
 import * as Console from 'consola';
 import Util from 'util';
-import { Binding } from './parser';
+import { Program } from './parser';
 
 const Logger = (p: object | string) => Console.default.log(Util.inspect(p, {
   breakLength: 2,
@@ -20,11 +20,14 @@ const Logger = (p: object | string) => Console.default.log(Util.inspect(p, {
 
 Fs.readFile((Path.normalize('/Users/zana/Desktop/core/examples/main.qi')),
   (err, data) => {
-    const res = Binding.run(data);
+    const res = Program.run(data);
 
     if (!err) {
       if (res.isError) Logger(res.error);
-      else Logger(res.result);
+      else {
+        Logger(res.result);
+      }
+
       return;
     }
     throw new Error('');
