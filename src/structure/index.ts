@@ -1,6 +1,7 @@
 import Kind from './kind';
 import Ident from './ident';
 import Binding from './binding';
+import Module from './module';
 import Atom from './type/atom';
 import Bool from './type/bool';
 import Number from './type/number';
@@ -20,4 +21,5 @@ export {
   Tuple,
   Map,
   Pair,
+  Module,
 };

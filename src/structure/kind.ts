@@ -8,6 +8,9 @@ enum Kind {
   Tuple,
   Map,
   Pair
+  Module,
+  Fn,
+  Function,
 }
 
 export default Kind;

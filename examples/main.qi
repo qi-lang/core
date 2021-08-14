@@ -1,14 +1,4 @@
-module A do
-  def out do
-  end
-
-  module B do
-    def outer do
-    end
-
-    module C do
-      def outest do
-      end
-    end
+module Thing do
+  module A do
   end
 end

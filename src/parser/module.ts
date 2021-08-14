@@ -22,6 +22,6 @@ const moduleBlock = P.between(
 const Module = P.sequenceOf([
   P.takeRight(Symbols.Module)(Parsers.Spacey1(Parsers.Ident)),
   moduleBlock,
-]);
+]).map((x) => new Structures.Module(x[0], x[1]));
 
 export default Module;
