@@ -25,7 +25,7 @@ Fs.readFile((Path.normalize('/Users/zana/Desktop/core/examples/main.qi')),
     if (!err) {
       if (res.isError) Logger(res.error);
       else {
-        Logger(res.result);
+        Logger(res.result as any);
       }
 
       return;

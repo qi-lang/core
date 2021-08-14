@@ -4,15 +4,17 @@ import * as Parsers from './index';
 // import * as Symbols from './symbols';
 // import * as Structures from '../structure';
 
-const Program = P.sequenceOf([
-  P.many(
-    Parsers.Spacey(
-      P.choice([
-        Parsers.Function,
-        Parsers.Binding,
-      ]),
-    ),
+const body = P.recursiveParser(() => P.many(
+  Parsers.Spacey(
+    P.choice([
+      Parsers.Function,
+      Parsers.Binding,
+    ]),
   ),
+));
+
+const Program = P.sequenceOf([
+  body,
 ]);
 
 export default Program;

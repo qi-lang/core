@@ -4,6 +4,7 @@ import Binding from './binding';
 import Function from './function';
 import Block from './block';
 import Program from './program';
+import Lambda from './lambda';
 import * as Type from './type';
 
 export {
@@ -12,6 +13,7 @@ export {
   Spacey,
   Binding,
   Block,
+  Lambda,
   Function,
   Program,
 };
