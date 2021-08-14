@@ -1,3 +1,14 @@
-a = fn (x, y) -> 
-  :solve
+module A do
+  def out do
+  end
+
+  module B do
+    def outer do
+    end
+
+    module C do
+      def outest do
+      end
+    end
+  end
 end

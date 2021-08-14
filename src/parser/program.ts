@@ -7,6 +7,7 @@ import * as Parsers from './index';
 const body = P.recursiveParser(() => P.many(
   Parsers.Spacey(
     P.choice([
+      Parsers.Module,
       Parsers.Function,
       Parsers.Binding,
     ]),
