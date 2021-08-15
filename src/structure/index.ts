@@ -9,6 +9,8 @@ import List from './type/list';
 import Tuple from './type/tuple';
 import Map from './type/map';
 import Pair from './type/pair';
+import Param from './params';
+import Function from './function';
 
 export {
   Kind,
@@ -22,4 +24,6 @@ export {
   Map,
   Pair,
   Module,
+  Param,
+  Function,
 };

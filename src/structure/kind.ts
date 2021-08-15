@@ -11,6 +11,7 @@ enum Kind {
   Module,
   Fn,
   Function,
+  Param,
 }
 
 export default Kind;

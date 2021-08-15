@@ -1,4 +1,2 @@
-module Thing do
-  module A do
-  end
+def example(a, b) do
 end
