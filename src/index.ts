@@ -24,7 +24,7 @@ const Logger = (i: number, p: object | string) => Console.default.log(
 
 Fs.readFile((Path.normalize('/Users/zana/Desktop/core/examples/main.qi')),
   (err, data) => {
-    const res = Parsers.Lambda.run(data);
+    const res = Parsers.Program.run(data);
 
     if (!err) {
       if (res.isError) Logger(0, res.error);
