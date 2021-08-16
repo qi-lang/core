@@ -13,6 +13,7 @@ import String from './type/string';
 import Param from './params';
 import Function from './function';
 import Block from './block';
+import Lambda from './lambda';
 
 export {
   Kind,
@@ -30,4 +31,5 @@ export {
   Function,
   String,
   Block,
+  Lambda,
 };

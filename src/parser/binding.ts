@@ -6,8 +6,8 @@ import * as Structures from '../structure';
 
 const body = P.recursiveParser(() => P.choice([
   Parsers.Lambda,
-  Parsers.Ident,
   Types.Types,
+  Parsers.Ident,
 ]));
 
 const Binding = P.sequenceOf([

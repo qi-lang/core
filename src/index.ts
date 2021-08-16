@@ -10,24 +10,50 @@ import * as Path from 'path';
 import * as Console from 'consola';
 import Util from 'util';
 
-import { Program } from './parser';
+import * as Parsers from './parser';
 
-const Logger = (p: object | string) => Console.default.log(Util.inspect(p, {
-  breakLength: 2,
-  colors: true,
-  depth: null,
-  maxArrayLength: null,
-}));
+const Logger = (i: number, p: object | string) => Console.default.log(
+  `${i}:`,
+  Util.inspect(p, {
+    breakLength: 2,
+    colors: true,
+    depth: null,
+    maxArrayLength: null,
+  }),
+);
 
 Fs.readFile((Path.normalize('/Users/zana/Desktop/core/examples/main.qi')),
   (err, data) => {
-    const res = Program.run(data);
+    const res = Parsers.Lambda.run(data);
 
     if (!err) {
-      if (res.isError) Logger(res.error);
-      else Logger(res.result);
+      if (res.isError) Logger(0, res.error);
+      else Logger(0, res.result as any);
       return;
     }
 
     throw new Error('');
   });
+
+// const s = [
+//   'fn x, y, z -> :true end',
+//   'fn (x) -> :false end',
+// ];
+
+// let index = 0;
+// s.forEach((i) => {
+//   const p = Parser.Lambda.run(i);
+
+//   if (p.isError) {
+//     Console.default.warn('================================');
+//   } else {
+//     Console.default.log('================================');
+//   }
+
+//   if (!p.isError) {
+//     Logger(index, p.result as any);
+//   } else {
+//     Logger(index, p.error);
+//   }
+//   index += 1;
+// });

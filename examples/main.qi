@@ -1,4 +1,3 @@
-module Demo do
-  def _ do
-  end
+fn ->
+  [1, 2, 3]
 end
