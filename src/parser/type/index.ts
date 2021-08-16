@@ -1,17 +1,29 @@
+import * as P from 'arcsecond';
 import Atom from './atom';
 import Bool from './bool';
-import Num from './number';
 import List from './list';
-import Tuple from './tuple';
 import Map from './map';
-import Types from './types';
+import Num from './number';
+import Tuple from './tuple';
+import String from './string';
 
-export {
-  Tuple,
+const Types = P.choice([
   Atom,
   Bool,
-  Num,
   List,
   Map,
+  Num,
+  Tuple,
+  String,
+]);
+
+export default {
   Types,
+  Atom,
+  Bool,
+  List,
+  Map,
+  Num,
+  Tuple,
+  String,
 };

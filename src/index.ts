@@ -9,7 +9,8 @@ import * as Fs from 'fs';
 import * as Path from 'path';
 import * as Console from 'consola';
 import Util from 'util';
-import { Function } from './parser';
+
+import Types from './parser/type';
 
 const Logger = (p: object | string) => Console.default.log(Util.inspect(p, {
   breakLength: 2,
@@ -20,7 +21,7 @@ const Logger = (p: object | string) => Console.default.log(Util.inspect(p, {
 
 Fs.readFile((Path.normalize('/Users/zana/Desktop/core/examples/main.qi')),
   (err, data) => {
-    const res = Function.run(data);
+    const res = Types.Types.run(data);
 
     if (!err) {
       if (res.isError) Logger(res.error);

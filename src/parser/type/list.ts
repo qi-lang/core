@@ -2,7 +2,7 @@ import * as P from 'arcsecond';
 import * as Symbols from '../symbols';
 import * as Structures from '../../structure';
 import * as Parsers from '../index';
-import * as Types from './index';
+import Types from './index';
 
 const value = P.recursiveParser(
   () => P.choice([
