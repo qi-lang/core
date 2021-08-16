@@ -6,8 +6,8 @@ import Function from './function';
 import Block from './block';
 import Program from './program';
 import Lambda from './lambda';
-import * as Type from './type';
 import Module from './module';
+import * as Type from './type';
 
 export {
   Ident,

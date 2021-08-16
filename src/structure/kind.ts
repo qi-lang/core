@@ -1,3 +1,11 @@
+/**
+ * * There seems to be a lot of issues with Eslint and TS Enums.
+ * * Hence the eslint disable flags, naturally.
+ */
+
+/* eslint-disable no-unused-vars */
+
+// eslint-disable-next-line no-shadow
 enum Kind {
   Ident,
   Binding,
@@ -7,11 +15,12 @@ enum Kind {
   List,
   Tuple,
   Map,
-  Pair
+  Pair,
   Module,
   Fn,
   Function,
   Param,
+  Block,
 }
 
 export default Kind;

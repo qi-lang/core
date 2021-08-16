@@ -3,13 +3,7 @@ import * as Parsers from '../index';
 import * as Symbols from '../symbols';
 import * as Structures from '../../structure';
 
-const Atom = P.sequenceOf([
-  Symbols.Colon,
-  Parsers.Ident,
-]).map(
-  (result) => new Structures.Atom(
-    result[1],
-  ),
-);
+const p = P.takeRight(Symbols.Colon)(Parsers.Ident);
+const Atom = p.map((x: any) => new Structures.Atom(x));
 
 export default Atom;

@@ -11,6 +11,7 @@ import Map from './type/map';
 import Pair from './type/pair';
 import Param from './params';
 import Function from './function';
+import Block from './block';
 
 export {
   Kind,
@@ -26,4 +27,5 @@ export {
   Module,
   Param,
   Function,
+  Block,
 };
