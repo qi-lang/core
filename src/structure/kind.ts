@@ -21,6 +21,7 @@ enum Kind {
   Function,
   Param,
   Block,
+  String
 }
 
 export default Kind;

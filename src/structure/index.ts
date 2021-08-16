@@ -9,6 +9,7 @@ import List from './type/list';
 import Tuple from './type/tuple';
 import Map from './type/map';
 import Pair from './type/pair';
+import String from './type/string';
 import Param from './params';
 import Function from './function';
 import Block from './block';
@@ -27,5 +28,6 @@ export {
   Module,
   Param,
   Function,
+  String,
   Block,
 };
