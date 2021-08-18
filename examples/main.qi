@@ -1,4 +1,9 @@
 module Qi do
+
+	def add() do
+		:true
+	end
+
   def say_hi do
     "Hello, World"
   end

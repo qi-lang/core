@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "@types/chai": "^4.2.21",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "concurrently": "^6.2.1",
@@ -25,14 +26,19 @@
     "clean": "yarn tidy && shx rm -rf node_modules",
     "build": "yarn tidy && tsc",
     "watch": "concurrently -k -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc --watch\" \"nodemon dist/index.js\"",
-    "dev": "yarn tidy && yarn build && yarn watch"
+    "dev": "yarn tidy && yarn build && yarn watch",
+    "test": "mocha --require ts-node/register --recursive ./test/**/*.ts"
   },
   "dependencies": {
+    "@types/mocha": "^9.0.0",
     "@types/node": "^16.6.0",
     "ansi-styles": "^6.1.0",
     "arcsecond": "^4.0.0",
+    "chai": "^4.3.4",
     "consola": "^2.15.3",
     "fp-ts": "^2.11.1",
-    "parser-ts": "^0.6.14"
+    "mocha": "^9.0.3",
+    "parser-ts": "^0.6.14",
+    "ts-node": "^10.2.0"
   }
 }
