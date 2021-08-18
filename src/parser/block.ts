@@ -5,24 +5,28 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from './index';
 import * as Symbols from './symbols';
-// import * as Structures from '../structure';
-import Types from './type';
 
-const body = P.recursiveParser(() => P.many(
-  Parsers.Spacey(
-    P.choice([
-      Parsers.Binding,
-      Types.Types,
-    ]),
+import Spacey from './helper/spacey';
+import Spacey1 from './helper/spacey1';
+
+import PBinding from './binding';
+import PTypes from './type';
+
+const Block = P.sequenceOf([
+  P.between(Symbols.Do)(Symbols.End)(
+    Spacey1(
+      // The body
+      P.recursiveParser(() => P.many(
+        Spacey(
+          P.choice([
+            PBinding,
+            PTypes.Any,
+          ]),
+        ),
+      )),
+    ),
   ),
-));
-
-const Block = P.between(
-  Parsers.Spacey(Symbols.Do),
-)(Parsers.Spacey(Symbols.End))(
-  Parsers.Spacey(body),
-);
+]);
 
 export default Block;
