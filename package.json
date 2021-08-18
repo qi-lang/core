@@ -8,7 +8,6 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@loopback/cli": "^2.21.2",
     "@types/chai": "^4.2.21",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
@@ -41,6 +40,5 @@
     "mocha": "^9.0.3",
     "parser-ts": "^0.6.14",
     "ts-node": "^10.2.0"
-  },
-  "copyright.owner": "Qi Lang"
+  }
 }
