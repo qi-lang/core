@@ -13,7 +13,7 @@ import Num from './number';
 import Tuple from './tuple';
 import String from './string';
 
-const Types = P.choice([
+const Any = P.choice([
   Atom,
   Bool,
   List,
@@ -24,7 +24,7 @@ const Types = P.choice([
 ]);
 
 export default {
-  Types,
+  Any,
   Atom,
   Bool,
   List,

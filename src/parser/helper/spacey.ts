@@ -6,12 +6,9 @@
 
 import * as P from 'arcsecond';
 
-const Spacey = (x: P.Parser<any, any, any>) => P.between(
-  P.possibly(
-    P.whitespace,
-  ),
-)(P.possibly(
-  P.whitespace,
-))(x);
+function Spacey(input: P.Parser<any, any>) {
+  const whitespace = P.possibly(P.whitespace);
+  return P.between(whitespace)(whitespace)(input);
+}
 
 export default Spacey;

@@ -5,22 +5,26 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from './index';
-import Types from './type';
 import * as Symbols from './symbols';
-import * as Structures from '../structure';
 
-const body = P.recursiveParser(() => P.choice([
-  Parsers.Lambda,
-  Types.Types,
-  Parsers.Ident,
-]));
+import Spacey from './helper/spacey';
+
+import PLambda from './lambda';
+import PIdent from './ident';
+import PTypes from './type';
+
+import SBinding from '../structure/binding';
 
 const Binding = P.sequenceOf([
-  Parsers.Ident,
-  Parsers.Spacey(Symbols.Equal),
-  body,
+  P.takeLeft(PIdent)(Spacey(Symbols.Equal)),
+
+  // The body
+  P.recursiveParser(() => P.choice([
+    PLambda,
+    PTypes.Any,
+    PIdent,
+  ])),
 ])
-  .map((x) => new Structures.Binding(x[0], x[2]));
+  .map((x) => new SBinding(x[0], x[1]));
 
 export default Binding;

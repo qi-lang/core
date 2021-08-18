@@ -5,8 +5,8 @@
  */
 
 import Ident from './ident';
-import Spacey from './spacey';
-import Spacey1 from './spacey1';
+import Spacey from './helper/spacey';
+import Spacey1 from './helper/spacey1';
 import Binding from './binding';
 import Function from './function';
 import Block from './block';
