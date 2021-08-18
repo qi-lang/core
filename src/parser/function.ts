@@ -1,3 +1,9 @@
+/*
+ * Copyright Qi Lang. 2021 All Rights Reserved.
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
+ */
+
 import * as P from 'arcsecond';
 import * as Parsers from './index';
 import Types from './type';
@@ -15,7 +21,8 @@ const params = P.between(Symbols.LeftParenthesis)(Symbols.RightParenthesis)(
       P.possibly(P.takeRight(Parsers.Spacey(Symbols.DoubleBackSlash))(
         paramsDefault,
       )),
-    ]).map((x) => new Structures.Param(x[0], (x[1]))),
+    ])
+      .map((x) => new Structures.Param(x[0], (x[1]))),
   ),
 );
 
@@ -23,12 +30,14 @@ const Function = P.sequenceOf([
   P.takeRight(Symbols.Def)(
     Parsers.Spacey(Parsers.Ident),
   ),
-  P.possibly(params).map(
-    (x) => (x === null ? [] : x),
-  ),
+  P.possibly(params)
+    .map(
+      (x) => (x === null ? [] : x),
+    ),
   Block,
-]).map(
-  (x) => new Structures.Function(x[0], x[1], x[2]),
-);
+])
+  .map(
+    (x) => new Structures.Function(x[0], x[1], x[2]),
+  );
 
 export default Function;

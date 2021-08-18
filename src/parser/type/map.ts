@@ -1,3 +1,9 @@
+/*
+ * Copyright Qi Lang. 2021 All Rights Reserved.
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
+ */
+
 import * as P from 'arcsecond';
 import * as Parsers from '../index';
 import * as Symbols from '../symbols';
@@ -18,15 +24,17 @@ const mapAtom = P.sequenceOf([
     // Parsers.String,
   ]),
   Symbols.Colon,
-]).map((x) => new Structures.Atom(x[0]));
+])
+  .map((x) => new Structures.Atom(x[0]));
 
 const pair = P.sequenceOf([
   Parsers.Spacey(mapAtom),
   Parsers.Spacey(body),
-]).map((x) => new Structures.Pair({
-  key: x[0],
-  value: x[1],
-}));
+])
+  .map((x) => new Structures.Pair({
+    key: x[0],
+    value: x[1],
+  }));
 
 const items = P.sepBy(Parsers.Spacey(Symbols.Comma))(Parsers.Spacey(pair));
 
@@ -35,6 +43,7 @@ const Map = P.sequenceOf([
   Symbols.LeftBrace,
   items,
   Symbols.RightBrace,
-]).map((x) => new Structures.Map(x[2]));
+])
+  .map((x) => new Structures.Map(x[2]));
 
 export default Map;

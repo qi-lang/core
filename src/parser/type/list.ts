@@ -1,3 +1,9 @@
+/*
+ * Copyright Qi Lang. 2021 All Rights Reserved.
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
+ */
+
 import * as P from 'arcsecond';
 import * as Symbols from '../symbols';
 import * as Structures from '../../structure';
@@ -17,6 +23,7 @@ const List = P.sequenceOf([
   Symbols.LeftBrackets,
   item,
   Symbols.RightBrackets,
-]).map((x) => new Structures.List(x[1]));
+])
+  .map((x) => new Structures.List(x[1]));
 
 export default List;

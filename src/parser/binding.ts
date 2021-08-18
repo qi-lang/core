@@ -1,3 +1,9 @@
+/*
+ * Copyright Qi Lang. 2021 All Rights Reserved.
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
+ */
+
 import * as P from 'arcsecond';
 import * as Parsers from './index';
 import Types from './type';
@@ -14,6 +20,7 @@ const Binding = P.sequenceOf([
   Parsers.Ident,
   Parsers.Spacey(Symbols.Equal),
   body,
-]).map((x) => new Structures.Binding(x[0], x[2]));
+])
+  .map((x) => new Structures.Binding(x[0], x[2]));
 
 export default Binding;

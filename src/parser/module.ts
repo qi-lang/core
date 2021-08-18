@@ -1,3 +1,9 @@
+/*
+ * Copyright Qi Lang. 2021 All Rights Reserved.
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
+ */
+
 import * as P from 'arcsecond';
 import * as Parsers from './index';
 // import * as Types from './type';
@@ -22,6 +28,7 @@ const moduleBlock = P.between(
 const Module = P.sequenceOf([
   P.takeRight(Symbols.Module)(Parsers.Spacey1(Parsers.Ident)),
   moduleBlock,
-]).map((x) => new Structures.Module(x[0], x[1]));
+])
+  .map((x) => new Structures.Module(x[0], x[1]));
 
 export default Module;

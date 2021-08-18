@@ -1,14 +1,5 @@
-module Qi do
+module Demo do
+  def add(a, b) do
 
-	def add() do
-		:true
-	end
-
-  def say_hi do
-    "Hello, World"
-  end
-
-  def say_hi(name) do
-    "Hello, #{name}"
   end
 end

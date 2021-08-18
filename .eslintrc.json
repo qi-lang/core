@@ -21,7 +21,8 @@
       "error",
       {
         "allow": [
-          "_tag"
+          "_tag",
+          "_kind"
         ]
       }
     ],
