@@ -6,7 +6,8 @@
 
 import * as P from 'arcsecond';
 import * as Symbols from './symbols';
-import * as Structures from '../structure';
+
+import SIdent from '../structure/ident';
 
 const first = P.choice([
   Symbols.Underscore,
@@ -14,7 +15,10 @@ const first = P.choice([
 ]);
 
 const rest = P.many(
-  P.choice([first, Symbols.Number]),
+  P.choice([
+    first,
+    Symbols.Number,
+  ]),
 )
   .map((x) => x.join(''));
 
@@ -29,7 +33,7 @@ const combined = P.sequenceOf([
   .map((x) => x.join(''));
 
 const Ident = combined.map(
-  (x) => new Structures.Ident(x as string),
+  (x) => new SIdent(x as string),
 );
 
 export default Ident;

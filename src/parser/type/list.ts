@@ -6,24 +6,28 @@
 
 import * as P from 'arcsecond';
 import * as Symbols from '../symbols';
-import * as Structures from '../../structure';
-import * as Parsers from '../index';
-import Types from './index';
 
-const value = P.recursiveParser(
-  () => P.choice([
-    // !TODO: Add other complex types such as ident.
-    Types.Types,
-  ]),
-);
+import Spacey from '../helper/spacey';
 
-const item = P.sepBy(Parsers.Spacey(Symbols.Comma))(Parsers.Spacey(value));
+import PTypes from './index';
+
+import SList from '../../structure/type/list';
+
+const item = P.sepBy(Spacey(Symbols.Comma))(Spacey(
+  // body
+  P.recursiveParser(
+    () => P.choice([
+      // !TODO: Add other complex types such as ident.
+      PTypes.Any,
+    ]),
+  ),
+));
 
 const List = P.sequenceOf([
   Symbols.LeftBrackets,
   item,
   Symbols.RightBrackets,
 ])
-  .map((x) => new Structures.List(x[1]));
+  .map((x) => new SList(x[1]));
 
 export default List;

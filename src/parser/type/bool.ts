@@ -6,12 +6,13 @@
 
 import * as P from 'arcsecond';
 import * as Symbols from '../symbols';
-import * as Structures from '../../structure';
+
+import SBool from '../../structure/type/bool';
 
 const Bool = P.choice([
   Symbols.True,
   Symbols.False,
 ])
-  .map((result) => new Structures.Bool(result === 'true'));
+  .map((result) => new SBool(result === 'true'));
 
 export default Bool;

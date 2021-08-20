@@ -5,39 +5,45 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from './index';
-import Types from './type';
 import * as Symbols from './symbols';
-import * as Structures from '../structure';
-import Block from './block';
 
-const paramsDefault = P.recursiveParser(() => Types.Types);
+import Spacey from './helper/spacey';
 
-// !TODO: params need default
+import PIdent from './ident';
+import PTypes from './type';
+import PBlock from './block';
+
+import SParam from '../structure/params';
+import SFunction from '../structure/function';
+
 const params = P.between(Symbols.LeftParenthesis)(Symbols.RightParenthesis)(
-  P.sepBy(Parsers.Spacey(Symbols.Comma))(
-    P.sequenceOf([
-      Parsers.Spacey(Parsers.Ident),
-      P.possibly(P.takeRight(Parsers.Spacey(Symbols.DoubleBackSlash))(
-        paramsDefault,
-      )),
-    ])
-      .map((x) => new Structures.Param(x[0], (x[1]))),
-  ),
+  P.sepBy(Spacey(Symbols.Comma))(P.sequenceOf([
+    Spacey(PIdent),
+
+    // default params
+    P.possibly(P.takeRight(Spacey(Symbols.DoubleBackSlash))(
+      P.recursiveParser(() => PTypes.Any),
+    )),
+  ])
+    .map((x) => new SParam(x[0], (x[1])))),
 );
 
 const Function = P.sequenceOf([
   P.takeRight(Symbols.Def)(
-    Parsers.Spacey(Parsers.Ident),
+    P.takeRight(P.many1(Symbols.WhiteSpace))(
+      Spacey(PIdent),
+    ),
   ),
-  P.possibly(params)
+  P.possibly(Spacey(
+    params,
+  ))
     .map(
       (x) => (x === null ? [] : x),
     ),
-  Block,
+  Spacey(PBlock),
 ])
   .map(
-    (x) => new Structures.Function(x[0], x[1], x[2]),
+    (x) => new SFunction(x[0], x[1], x[2]),
   );
 
 export default Function;

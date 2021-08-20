@@ -5,11 +5,13 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from '../index';
 import * as Symbols from '../symbols';
-import * as Structures from '../../structure';
 
-const p = P.takeRight(Symbols.Colon)(Parsers.Ident);
-const Atom = p.map((x: any) => new Structures.Atom(x));
+import PIdent from '../ident';
+
+import PAtom from '../../structure/type/atom';
+
+const p = P.takeRight(Symbols.Colon)(PIdent);
+const Atom = p.map((x: any) => new PAtom(x));
 
 export default Atom;

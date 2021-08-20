@@ -5,45 +5,53 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from '../index';
 import * as Symbols from '../symbols';
-import * as Structures from '../../structure';
-import Types from './index';
+
+import Spacey from '../helper/spacey';
+
+import PTypes from './index';
+import PIdent from '../ident';
+
+import SMap from '../../structure/type/map';
+import SAtom from '../../structure/type/atom';
+import SPair from '../../structure/type/pair';
 
 const body = P.recursiveParser(
   () => P.choice([
     // !TODO: Add other complex types such as ident.
-    Types.Types,
+    PTypes.Any,
   ]),
 );
 
 const mapAtom = P.sequenceOf([
   P.choice([
-    Parsers.Ident,
+    PIdent,
     // !TODO: Add String parser.
     // Parsers.String,
   ]),
   Symbols.Colon,
 ])
-  .map((x) => new Structures.Atom(x[0]));
+  .map((x) => new SAtom(x[0]));
 
 const pair = P.sequenceOf([
-  Parsers.Spacey(mapAtom),
-  Parsers.Spacey(body),
+  Spacey(mapAtom),
+  Spacey(body),
 ])
-  .map((x) => new Structures.Pair({
+  .map((x) => new SPair({
     key: x[0],
     value: x[1],
   }));
 
-const items = P.sepBy(Parsers.Spacey(Symbols.Comma))(Parsers.Spacey(pair));
+const items = P.sepBy(Spacey(Symbols.Comma))(Spacey(pair));
 
-const Map = P.sequenceOf([
-  Symbols.Percent,
-  Symbols.LeftBrace,
-  items,
-  Symbols.RightBrace,
-])
-  .map((x) => new Structures.Map(x[2]));
+const Map = P.takeLeft(
+  P.takeRight(
+    P.sequenceOf([
+      Symbols.Percent,
+      Symbols.LeftBrace,
+    ]),
+  )(items),
+)(Symbols.RightBrace)
+  .map((x: any) => new SMap(x));
 
 export default Map;

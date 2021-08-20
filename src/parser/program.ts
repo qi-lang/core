@@ -5,14 +5,13 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from './index';
-// import * as Types from './type';
-// import * as Symbols from './symbols';
-// import * as Structures from '../structure';
+import Spacey from './helper/spacey';
+import PModule from './module';
 
-const Program = P.recursiveParser(() => P.choice([
-  Parsers.Module,
-  Parsers.Spacey(P.endOfInput),
-]));
-
+const Program = Spacey(
+  P.recursiveParser(() => P.choice([
+    PModule,
+    Spacey(P.endOfInput),
+  ])),
+);
 export default Program;

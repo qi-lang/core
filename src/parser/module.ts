@@ -5,30 +5,36 @@
  */
 
 import * as P from 'arcsecond';
-import * as Parsers from './index';
-// import * as Types from './type';
 import * as Symbols from './symbols';
-import * as Structures from '../structure';
 
-const moduleBlockBody = P.recursiveParser(() => P.many(
-  Parsers.Spacey(
+import Spacey from './helper/spacey';
+import Spacey1 from './helper/spacey1';
+
+import PFunction from './function';
+import PIdent from './ident';
+import PModule from './module';
+
+import SModule from '../structure/module';
+
+const body = P.recursiveParser(() => P.many(
+  Spacey(
     P.choice([
-      Parsers.Module,
-      Parsers.Function,
+      PFunction,
+      PModule,
     ]),
   ),
 ));
 
 const moduleBlock = P.between(
-  Parsers.Spacey(Symbols.Do),
-)(Parsers.Spacey(Symbols.End))(
-  Parsers.Spacey(moduleBlockBody),
+  Spacey(Symbols.Do),
+)(Spacey(Symbols.End))(
+  Spacey(body),
 );
 
 const Module = P.sequenceOf([
-  P.takeRight(Symbols.Module)(Parsers.Spacey1(Parsers.Ident)),
+  P.takeRight(Symbols.Module)(Spacey1(PIdent)),
   moduleBlock,
 ])
-  .map((x) => new Structures.Module(x[0], x[1]));
+  .map((x) => new SModule(x[0], x[1]));
 
 export default Module;
