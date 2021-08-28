@@ -4,9 +4,9 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
-/**
- * * There seems to be a lot of issues with Eslint and TS Enums.
- * * Hence the eslint disable flags, naturally.
+/*
+ * TODO: There seems to be a lot of issues with Eslint and TS Enums.
+ *       Hence the eslint disable flags, naturally.
  */
 
 /* eslint-disable no-unused-vars */
