@@ -1,16 +1,17 @@
-"use strict";
+'use strict';
 /*
  * Copyright Qi Lang. 2021 All Rights Reserved.
  * This file is licensed under the MIT License.
  * License text available at https://opensource.org/licenses/MIT
  */
 exports.__esModule = true;
-var kind_1 = require("../kind");
+var kind_1 = require('../kind');
 var Atom = /** @class */ (function () {
-    function Atom(body) {
-        this._kind = kind_1["default"].Atom;
-        this.body = body;
-    }
-    return Atom;
+  function Atom(body) {
+    this._kind = kind_1['default'].Atom;
+    this.body = body;
+  }
+
+  return Atom;
 }());
-exports["default"] = Atom;
+exports['default'] = Atom;

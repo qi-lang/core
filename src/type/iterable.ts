@@ -5,64 +5,13 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Symbols } from './symbols';
-import { Ident } from './ident';
-import { Helper } from './helper';
-
-export namespace Atom {
-
-  export namespace Parser {
-
-    export const object = Arc.takeRight(Symbols.Parser.COLON)(Ident.Parser.object);
-  }
-
-  export namespace Structure {
-  }
-}
-
-export namespace Bool {
-
-  export namespace Parser {
-
-    export const object = Arc.choice([
-      Symbols.Parser.Bool.FALSE,
-      Symbols.Parser.Bool.TRUE,
-    ]);
-  }
-
-  export namespace Structure {
-  }
-}
-
-export namespace Number {
-
-  export namespace Parser {
-    export const object = Arc.sequenceOf([
-      Arc.many1(Symbols.Parser.NUMERAL),
-      Arc.possibly(Arc.sequenceOf([
-        Symbols.Parser.PERIOD,
-        Arc.many(Symbols.Parser.NUMERAL),
-      ])),
-    ]);
-  }
-
-  export namespace Structure {
-  }
-}
-
-export namespace String {
-
-  export namespace Parser {
-
-    // TODO: Temporary?
-    export const object = Arc.regex(
-      /^("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/,
-    );
-  }
-
-  export namespace Structure {
-  }
-}
+import { Atom } from './atom';
+import { Bool } from './bool';
+import { Number } from './number';
+import { String } from './string';
+import { Helper } from '../helper';
+import { Symbols } from '../symbols';
+import { Ident } from '../ident';
 
 export namespace Iterable {
 

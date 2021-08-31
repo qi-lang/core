@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /*
  * Copyright Qi Lang. 2021 All Rights Reserved.
  * This file is licensed under the MIT License.
@@ -6,9 +6,9 @@
  */
 exports.__esModule = true;
 exports.WhiteSpace = void 0;
-var P = require("arcsecond");
+var P = require('arcsecond');
 exports.WhiteSpace = P.choice([
-    P.char('\n'),
-    P.char(' '),
-    P.char('\t'),
+  P.char('\n'),
+  P.char(' '),
+  P.char('\t'),
 ]);
