@@ -5,6 +5,7 @@
  */
 
 import * as Arc from 'arcsecond';
+
 import { Symbols } from '../symbols';
 
 export namespace Number {

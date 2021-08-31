@@ -6,7 +6,7 @@
 
 import consola from 'consola';
 
-import { Iterable } from './type/iterable';
+import { Iterable } from './type';
 
 const res = Iterable.Tuple.Parser.object.run('{%{a: "Hi, World", b: :c, d: :e}}');
 consola.log(res.isError ? res.error : JSON.stringify(res.result));

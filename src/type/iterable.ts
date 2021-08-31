@@ -5,6 +5,7 @@
  */
 
 import * as Arc from 'arcsecond';
+
 import { Atom } from './atom';
 import { Bool } from './bool';
 import { Number } from './number';
