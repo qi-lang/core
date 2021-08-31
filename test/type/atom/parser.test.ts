@@ -6,12 +6,26 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { Atom } from '../../../src/type';
+import { Ident } from '../../../src/ident';
 
-describe('demo', () => {
-  it('should say hi', () => {
-    expect('hello')
-      .to
-      .be
-      .equal('hello');
+describe('atom parser', () => {
+  it('contains Ident', () => {
+    const subject = Atom.Parser.object.run(':ok');
+
+    if (!subject.isError) {
+      expect(JSON.stringify(subject.result))
+        .to
+        .be
+        .eq(
+          JSON.stringify(
+            Atom.Structure.object(
+              Ident.Structure.object('ok'),
+            ),
+          ),
+        );
+    } else {
+      throw new Error(subject.error);
+    }
   });
 });
