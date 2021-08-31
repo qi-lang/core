@@ -4,9 +4,7 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
-import consola from 'consola';
-
-import { Atom } from './type';
-
-const res = Atom.Parser.object.run(':hello_world');
-consola.log(res.isError ? res.error : res.result);
+export enum Kind {
+  Atom,
+  Ident,
+}

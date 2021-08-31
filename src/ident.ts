@@ -6,10 +6,12 @@
 
 import * as Arc from 'arcsecond';
 import { Symbols } from './symbols';
+import { Kind } from './kind';
 
 export namespace Ident {
 
   export namespace Parser {
+
     const x = Arc.choice([
       Symbols.Parser.UNDERSCORE,
       Symbols.Parser.ALPHA,
@@ -20,7 +22,8 @@ export namespace Ident {
         x,
         Symbols.Parser.NUMERAL,
       ]),
-    );
+    )
+      .map((many) => many.join(''));
 
     export const object = Arc.sequenceOf([
       x,
@@ -28,7 +31,25 @@ export namespace Ident {
       Arc.possibly(Arc.choice([
         Symbols.Parser.BANG,
         Symbols.Parser.QUESTION,
-      ])),
-    ]);
+      ]))
+        .map((something) => (something === null ? '' : something)),
+    ])
+      .map((all) => all.join(''))
+      .map((ident) => Ident.Structure.createIdent(ident as String));
+  }
+
+  export namespace Structure {
+
+    class Object {
+      public readonly _kind = Kind.Ident;
+
+      public readonly body: String;
+
+      constructor(body: String) {
+        this.body = body;
+      }
+    }
+
+    export const createIdent = (body: String) => new Object(body);
   }
 }
