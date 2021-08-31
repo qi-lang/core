@@ -6,8 +6,15 @@
 
 import * as Arc from 'arcsecond';
 import { Symbols } from './symbols';
+import { Kind } from './kind';
 
 export namespace Helper {
+
+  export namespace Structure {
+    export interface IBase {
+      readonly _kind: Kind;
+    }
+  }
 
   export const Spacey = (input: Arc.Parser<any>) => {
     const whitespace = Arc.possibly(

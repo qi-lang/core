@@ -7,6 +7,7 @@
 import * as Arc from 'arcsecond';
 import { Symbols } from './symbols';
 import { Kind } from './kind';
+import { Helper } from './helper';
 
 export namespace Ident {
 
@@ -35,12 +36,16 @@ export namespace Ident {
         .map((something) => (something === null ? '' : something)),
     ])
       .map((all) => all.join(''))
-      .map((ident) => Ident.Structure.createIdent(ident as String));
+      .map((ident) => Ident.Structure.object(ident as String));
   }
 
   export namespace Structure {
 
-    class Object {
+    export interface IIdent extends Helper.Structure.IBase {
+      readonly body: String;
+    }
+
+    class Object implements IIdent {
       public readonly _kind = Kind.Ident;
 
       public readonly body: String;
@@ -50,6 +55,6 @@ export namespace Ident {
       }
     }
 
-    export const createIdent = (body: String) => new Object(body);
+    export const object = (body: String) => new Object(body);
   }
 }

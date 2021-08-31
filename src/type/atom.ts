@@ -9,6 +9,7 @@ import * as Arc from 'arcsecond';
 import { Symbols } from '../symbols';
 import { Ident } from '../ident';
 import { Kind } from '../kind';
+import { Helper } from '../helper';
 
 export namespace Atom {
 
@@ -20,12 +21,17 @@ export namespace Atom {
 
   export namespace Structure {
 
-    class Object {
-      public readonly _kind = Kind.Atom;
+    export interface IAtom extends Helper.Structure.IBase {
+      readonly body: String;
+    }
+
+    class Object implements IAtom {
+      public readonly _kind: Kind;
 
       public readonly body: String;
 
       constructor(body: String) {
+        this._kind = Kind.Atom;
         this.body = body;
       }
     }
