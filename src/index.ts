@@ -8,5 +8,5 @@ import consola from 'consola';
 
 import { Atom } from './type';
 
-const res = Atom.Parser.object.run(':ok');
+const res = Atom.Parser.object.run(':err');
 consola.log(res.isError ? res.error : res.result);

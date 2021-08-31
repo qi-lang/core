@@ -6,7 +6,6 @@
 
 import * as Arc from 'arcsecond';
 import { Symbols } from './symbols';
-import { Kind } from './kind';
 import { Helper } from './helper';
 
 export namespace Ident {
@@ -46,7 +45,7 @@ export namespace Ident {
     }
 
     class Object implements IIdent {
-      public readonly _kind = Kind.Ident;
+      public readonly _kind = Helper.Kind.Ident;
 
       public readonly body: String;
 

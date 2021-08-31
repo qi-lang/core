@@ -6,9 +6,13 @@
 
 import * as Arc from 'arcsecond';
 import { Symbols } from './symbols';
-import { Kind } from './kind';
 
 export namespace Helper {
+
+  export enum Kind {
+    Atom,
+    Ident,
+  }
 
   export namespace Structure {
     export interface IBase {
@@ -24,6 +28,7 @@ export namespace Helper {
         Symbols.Parser.Whitespace.SPACE,
       ]),
     );
+
     return Arc.between(whitespace)(whitespace)(input);
   };
 }
