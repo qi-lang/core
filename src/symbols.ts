@@ -264,9 +264,10 @@ export namespace Symbols {
       export const END = Arc.str('end');
     }
 
-    export const TRUE = Arc.str('true');
-
-    export const FALSE = Arc.str('false');
+    export namespace Bool {
+      export const TRUE = Arc.str('true');
+      export const FALSE = Arc.str('false');
+    }
 
     export namespace Brace {
       export const LEFT = Arc.char('{');
