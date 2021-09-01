@@ -1,16 +1,16 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src"
+    "outDir": "test/compiled",
+    "rootDir": "test"
   },
   "include": [
-    "src"
+    "test"
   ],
   "exclude": [
     "dist",
     "node_modules",
-    "test",
+    "src",
     ".idea"
   ]
 }
