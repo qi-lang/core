@@ -6,27 +6,31 @@
 
 import * as Arc from 'arcsecond';
 import { Helper } from './helper';
-import { Ident } from './ident';
 import { Symbols } from './symbols';
 
-export namespace Binding {
+export namespace Block {
 
   export namespace Parser {
 
-    // TODO
-    const body = Arc.recursiveParser(() => Arc.choice([
-      // PLambda,
-      // PTypes.Any,
-      // PIdent,
-    ]));
+    const body = Arc.recursiveParser(() => Arc.many(
+      Helper.Spacey(
+        Arc.choice([
+          // PBinding,
+          // PTypes.Any,
+        ]),
+      ),
+    ));
 
     export const object = Arc.sequenceOf([
-      Arc.takeLeft(Ident.Parser.object)(Helper.Spacey(Symbols.Parser.EQUAL)),
-      body,
+      Arc.between(Symbols.Parser.Block.DO)(Symbols.Parser.Block.END)(
+        Helper.Spacey(
+          body,
+        ),
+      ),
     ]);
   }
 
   export namespace Structure {
-
   }
+
 }
