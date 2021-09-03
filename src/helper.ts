@@ -9,26 +9,36 @@ import { Symbols } from './symbols';
 
 export namespace Helper {
 
-  export enum Kind {
-    Atom,
-    Ident,
-  }
-
-  export namespace Structure {
-    export interface IBase {
-      readonly _kind: Kind;
+    export enum Kind {
+        Atom,
+        Ident,
     }
-  }
 
-  export const Spacey = (input: Arc.Parser<any>) => {
-    const whitespace = Arc.possibly(
-      Arc.choice([
-        Symbols.Parser.Whitespace.NEWLINE,
-        Symbols.Parser.Whitespace.TAB,
-        Symbols.Parser.Whitespace.SPACE,
-      ]),
-    );
+    export namespace Structure {
+        export interface IBase {
+            readonly _kind: Kind;
+        }
+    }
 
-    return Arc.between(whitespace)(whitespace)(input);
-  };
+    export const Spacey = (input: Arc.Parser<any>) => {
+      const whitespace = Arc.possibly(
+        Arc.choice([
+          Symbols.Parser.Whitespace.NEWLINE,
+          Symbols.Parser.Whitespace.TAB,
+          Symbols.Parser.Whitespace.SPACE,
+        ]),
+      );
+      return Arc.between(whitespace)(whitespace)(input);
+    };
+
+    export const Spacey1 = (input: Arc.Parser<any>) => {
+      const whitespace = Arc.many1(
+        Arc.choice([
+          Symbols.Parser.Whitespace.NEWLINE,
+          Symbols.Parser.Whitespace.TAB,
+          Symbols.Parser.Whitespace.SPACE,
+        ]),
+      );
+      return Arc.between(whitespace)(whitespace)(input);
+    };
 }

@@ -6,7 +6,9 @@
 
 import consola from 'consola';
 
-import { Atom } from './type';
+import { Lambda } from './lambda';
 
-const res = Atom.Parser.object.run(':hello');
+const input = 'fn (a, b) -> :hello end';
+
+const res = Lambda.Parser.object.run(input);
 consola.log(res.isError ? res.error : res.result);
