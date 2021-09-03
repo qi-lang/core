@@ -5,16 +5,12 @@
  */
 
 import consola from 'consola';
-import PProgram from './parser/program';
+import { Module } from './module';
 
-const result = PProgram.run(`
-def A do
-
+const input = `
+module A do
 end
-`.trim());
+`.trim();
 
-if (result.isError) {
-  consola.error(result.error);
-} else {
-  consola.log(result.result);
-}
+const res = Module.Parser.object.run(input);
+consola.log(res.isError ? res.error : res.result);

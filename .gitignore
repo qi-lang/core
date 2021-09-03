@@ -108,4 +108,5 @@ dist
 #
 dist/
 .vscode
-/.idea/
+.idea/
+test/**/*.js
