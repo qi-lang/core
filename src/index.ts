@@ -5,10 +5,12 @@
  */
 
 import consola from 'consola';
+import { Module } from './module';
 
-import { Lambda } from './lambda';
+const input = `
+module A do
+end
+`.trim();
 
-const input = 'fn (a, b) -> :hello end';
-
-const res = Lambda.Parser.object.run(input);
+const res = Module.Parser.object.run(input);
 consola.log(res.isError ? res.error : res.result);
