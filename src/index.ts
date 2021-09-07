@@ -5,12 +5,12 @@
  */
 
 import consola from 'consola';
-import { Module } from './module';
+import { Function } from './function';
 
 const input = `
-module A do
+def hello(world) do
 end
 `.trim();
 
-const res = Module.Parser.object.run(input);
+const res = Function.Parser.object.run(input);
 consola.log(res.isError ? res.error : res.result);

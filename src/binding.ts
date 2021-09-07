@@ -5,9 +5,9 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Helper } from './helper';
 import { Ident } from './ident';
 import { Symbols } from './symbols';
+import { Helper } from './helper';
 
 export namespace Binding {
 
@@ -21,7 +21,7 @@ export namespace Binding {
     ]));
 
     export const object = Arc.sequenceOf([
-      Arc.takeLeft(Ident.Parser.object)(Helper.Spacey(Symbols.Parser.EQUAL)),
+      Arc.takeLeft(Ident.Parser.object)(Helper.Spacing.between(Symbols.Parser.EQUAL)),
       body,
     ]);
   }

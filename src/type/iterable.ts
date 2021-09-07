@@ -10,9 +10,9 @@ import { Atom } from './atom';
 import { Bool } from './bool';
 import { Number } from './number';
 import { String } from './string';
-import { Helper } from '../helper';
 import { Symbols } from '../symbols';
 import { Ident } from '../ident';
+import { Helper } from '../helper';
 
 export namespace Iterable {
 
@@ -28,7 +28,9 @@ export namespace Iterable {
       Iterable.Map.Parser.object,
     ]));
 
-    export const object = Arc.sepBy(Helper.Spacey(Symbols.Parser.COMMA))(Helper.Spacey(body));
+    export const object = Arc.sepBy(
+      Helper.Spacing.between(Symbols.Parser.COMMA),
+    )(Helper.Spacing.between(body));
   }
 
   export namespace List {
@@ -58,8 +60,8 @@ export namespace Iterable {
       ]);
 
       const pair = Arc.sequenceOf([
-        Helper.Spacey(mapAtom),
-        Helper.Spacey(
+        Helper.Spacing.between(mapAtom),
+        Helper.Spacing.between(
           Arc.recursiveParser(() => Arc.choice([
             Atom.Parser.object,
             Bool.Parser.object,
@@ -72,7 +74,9 @@ export namespace Iterable {
         ),
       ]);
 
-      const items = Arc.sepBy(Helper.Spacey(Symbols.Parser.COMMA))(Helper.Spacey(pair));
+      const items = Arc.sepBy(
+        Helper.Spacing.between(Symbols.Parser.COMMA),
+      )(Helper.Spacing.between(pair));
 
       export const object = Arc.takeLeft(Arc.takeRight(Arc.sequenceOf([
         Symbols.Parser.PERCENT,
@@ -87,8 +91,10 @@ export namespace Iterable {
   export namespace Tuple {
 
     export namespace Parser {
-      export const object = Arc.between(Symbols.Parser.Brace.LEFT)(Symbols.Parser.Brace.RIGHT)(
-        Helper.Spacey(Iterable.Template.object),
+      export const object = Arc.between(
+        Symbols.Parser.Brace.LEFT,
+      )(Symbols.Parser.Brace.RIGHT)(
+        Helper.Spacing.between(Iterable.Template.object),
       );
     }
 

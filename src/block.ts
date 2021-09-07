@@ -5,25 +5,36 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Helper } from './helper';
 import { Symbols } from './symbols';
+import { Binding } from './binding';
+import * as Type from './type';
+import { Helper } from './helper';
 
 export namespace Block {
 
   export namespace Parser {
 
     const body = Arc.recursiveParser(() => Arc.many(
-      Helper.Spacey(
+      Helper.Spacing.between(
         Arc.choice([
           // PBinding,
+          Binding.Parser.object,
+
           // PTypes.Any,
+          Type.Iterable.List.Parser.object,
+          Type.Iterable.Tuple.Parser.object,
+          Type.Iterable.Map.Parser.object,
+          Type.Atom.Parser.object,
+          Type.String.Parser.object,
+          Type.Bool.Parser.object,
+          Type.Number.Parser.object,
         ]),
       ),
     ));
 
     export const object = Arc.sequenceOf([
       Arc.between(Symbols.Parser.Block.DO)(Symbols.Parser.Block.END)(
-        Helper.Spacey(
+        Helper.Spacing.between(
           body,
         ),
       ),
