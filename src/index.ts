@@ -5,12 +5,17 @@
  */
 
 import consola from 'consola';
-import { Function } from './function';
+import * as Util from 'util';
+import { Iterable } from './type';
 
-const input = `
-def hello(world) do
-end
-`.trim();
+const input = '[true, :true]';
 
-const res = Function.Parser.object.run(input);
-consola.log(res.isError ? res.error : res.result);
+const res = Iterable.List.Parser.object.run(input);
+consola.log(
+  Util.inspect(res.isError ? res.error : res.result, {
+    showHidden: false,
+    depth: null,
+    colors: true,
+    breakLength: 2,
+  }),
+);
