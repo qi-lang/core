@@ -5,7 +5,6 @@
  */
 
 import * as Arc from 'arcsecond';
-
 import { Symbols } from '../symbols';
 import { Ident } from '../ident';
 import { Helper } from '../helper';

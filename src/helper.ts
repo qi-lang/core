@@ -12,6 +12,7 @@ export namespace Helper {
   export enum Kind {
     Atom,
     Bool,
+    List,
     Ident,
   }
 

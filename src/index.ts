@@ -8,7 +8,7 @@ import consola from 'consola';
 import * as Util from 'util';
 import { Iterable } from './type';
 
-const input = '[true, :true]';
+const input = '[true, false, :hello_world!]';
 
 const res = Iterable.List.Parser.object.run(input);
 consola.log(

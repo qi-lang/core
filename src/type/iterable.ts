@@ -36,14 +36,35 @@ export namespace Iterable {
   export namespace List {
 
     export namespace Parser {
-      export const object = Arc.sequenceOf([
+      export const object = Arc.between(
         Symbols.Parser.Bracket.LEFT,
+      )(Symbols.Parser.Bracket.RIGHT)(
         Iterable.Template.object,
-        Symbols.Parser.Bracket.RIGHT,
-      ]);
+      )
+        .map((body) => Iterable.List.Structure.object(body as Array<any>)); // TODO: change any
     }
 
     export namespace Structure {
+      export interface IList extends Helper.Structure.IBase {
+        // TOOD: change any
+        readonly body: Array<any>;
+      }
+
+      class Object implements IList {
+        public readonly _kind: Helper.Kind;
+
+        // TOOD: change any
+        public readonly body: Array<any>;
+
+        // TOOD: change any
+        constructor(body: Array<any>) {
+          this._kind = Helper.Kind.List;
+          this.body = body;
+        }
+      }
+
+      // TOOD: change any
+      export const object = (body: Array<any>) => new Object(body);
     }
   }
 

@@ -5,8 +5,6 @@
  */
 
 import * as Arc from 'arcsecond';
-
-import { boolean } from 'fp-ts';
 import { Symbols } from '../symbols';
 import { Helper } from '../helper';
 
