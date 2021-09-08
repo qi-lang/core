@@ -1,9 +1,5 @@
-using IO
-using Hello
-
-module App do
-  def __main__ do
-    Hello.by_name("Zana")
-    |> IO.puts()
+module Demo do
+  def say_hi(name \\ "World") do
+    "Hello, #{name}!"
   end
 end

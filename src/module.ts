@@ -22,10 +22,12 @@ export namespace Module {
       ),
     ));
 
-    const block = Arc.between(
-      Helper.Spacing.between(Symbols.Parser.Block.DO),
-    )(Helper.Spacing.between(Symbols.Parser.Block.END))(
-      Helper.Spacing.between(body),
+    const block = Helper.Spacing.between(
+      Arc.between(
+        Helper.Spacing.between(Symbols.Parser.Block.DO),
+      )(Helper.Spacing.between(Symbols.Parser.Block.END))(
+        Helper.Spacing.between(body),
+      ),
     );
 
     export const object = Arc.sequenceOf([

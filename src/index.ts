@@ -6,13 +6,17 @@
 
 import consola from 'consola';
 import * as Util from 'util';
-import { Iterable } from './type';
+import * as Fs from 'fs';
+import { Module } from './module';
 
-const input = `
-%{a: true, hello_world: ["", true]}
-`.trim();
+const input = Fs.readFileSync(
+  '/Users/zana/Desktop/core/examples/main.qi', {
+    encoding: 'utf-8',
+  },
+);
 
-const res = Iterable.Map.Parser.object.run(input);
+const res = Module.Parser.object.run(input);
+
 consola.log(
   Util.inspect(res.isError ? res.error : res.result, {
     showHidden: false,

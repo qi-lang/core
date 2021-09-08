@@ -1,0 +1,9 @@
+using IO
+using Hello
+
+module App do
+  def __main__ do
+    Hello.by_name("Zana")
+    |> IO.puts()
+  end
+end

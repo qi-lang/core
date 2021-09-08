@@ -10,11 +10,13 @@ import { Symbols } from './symbols';
 export namespace Helper {
 
   export enum Kind {
+    Ident,
+    String,
+    Number,
     Atom,
     Bool,
     List,
     Tuple,
-    Ident,
     Pair,
     Map,
   }
@@ -27,58 +29,36 @@ export namespace Helper {
 
   export namespace Spacing {
 
-    export const between = (input: Arc.Parser<any>) => {
-      const whitespace = Arc.possibly(
+    const whitespace0 = Arc.possibly(
+      Arc.many(
         Arc.choice([
-          Symbols.Parser.Whitespace.NEWLINE,
-          Symbols.Parser.Whitespace.TAB,
           Symbols.Parser.Whitespace.SPACE,
-        ]),
-      );
-      return Arc.between(whitespace)(whitespace)(input);
-    };
-
-    export const between1 = (input: Arc.Parser<any>) => {
-      const whitespace = Arc.many1(
-        Arc.choice([
-          Symbols.Parser.Whitespace.NEWLINE,
           Symbols.Parser.Whitespace.TAB,
-          Symbols.Parser.Whitespace.SPACE,
+          Symbols.Parser.Whitespace.NEWLINE,
         ]),
-      );
-      return Arc.between(whitespace)(whitespace)(input);
-    };
+      ),
+    );
 
-    export const left = (input: Arc.Parser<any>) => Arc.takeRight(Arc.possibly(
+    const whitespace1 = Arc.many1(
       Arc.choice([
-        Symbols.Parser.Whitespace.NEWLINE,
-        Symbols.Parser.Whitespace.TAB,
         Symbols.Parser.Whitespace.SPACE,
-      ]),
-    ))(input);
-
-    export const right = (input: Arc.Parser<any>) => Arc.takeLeft(Arc.possibly(
-      input,
-    ))(Arc.choice([
-      Symbols.Parser.Whitespace.NEWLINE,
-      Symbols.Parser.Whitespace.TAB,
-      Symbols.Parser.Whitespace.SPACE,
-    ]));
-
-    export const left1 = (input: Arc.Parser<any>) => Arc.takeRight(Arc.many1(
-      Arc.choice([
-        Symbols.Parser.Whitespace.NEWLINE,
         Symbols.Parser.Whitespace.TAB,
-        Symbols.Parser.Whitespace.SPACE,
+        Symbols.Parser.Whitespace.NEWLINE,
       ]),
-    ))(input);
+    );
 
-    export const right1 = (input: Arc.Parser<any>) => Arc.takeLeft(Arc.many1(
+    export const between = (input: Arc.Parser<any>) => Arc.between(whitespace0)(whitespace0)(input);
+
+    export const between1 = (input: Arc.Parser<any>) => Arc.between(whitespace1)(whitespace1)(
       input,
-    ))(Arc.choice([
-      Symbols.Parser.Whitespace.NEWLINE,
-      Symbols.Parser.Whitespace.TAB,
-      Symbols.Parser.Whitespace.SPACE,
-    ]));
+    );
+
+    export const left = (input: Arc.Parser<any>) => Arc.takeRight(Arc.possibly(whitespace0))(input);
+
+    export const right = (input: Arc.Parser<any>) => Arc.takeLeft(Arc.possibly(input))(whitespace0);
+
+    export const left1 = (input: Arc.Parser<any>) => Arc.takeRight(Arc.many1(whitespace1))(input);
+
+    export const right1 = (input: Arc.Parser<any>) => Arc.takeLeft(Arc.many1(input))(whitespace1);
   }
 }
