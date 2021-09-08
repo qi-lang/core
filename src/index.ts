@@ -8,9 +8,11 @@ import consola from 'consola';
 import * as Util from 'util';
 import { Iterable } from './type';
 
-const input = '[true, false, :hello_world!]';
+const input = `
+{:ok, :err}
+`.trim();
 
-const res = Iterable.List.Parser.object.run(input);
+const res = Iterable.Tuple.Parser.object.run(input);
 consola.log(
   Util.inspect(res.isError ? res.error : res.result, {
     showHidden: false,

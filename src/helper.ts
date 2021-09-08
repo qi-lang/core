@@ -13,6 +13,7 @@ export namespace Helper {
     Atom,
     Bool,
     List,
+    Tuple,
     Ident,
   }
 
