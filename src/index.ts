@@ -4,30 +4,14 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
-import consola from 'consola';
-import * as Util from 'util';
-import * as Fs from 'fs';
-import { Iterable } from './type';
+export * from './type';
 
-const input = Fs.readFileSync(
-  '/Users/zana/Desktop/core/examples/main.qi', {
-    encoding: 'utf-8',
-  },
-);
-
-// const input = `
-// fn (x, y) ->
-//   :x
-// end
-// `.trim();
-
-const res = Iterable.Map.Parser.object.run(input.trim());
-
-consola.log(
-  Util.inspect(res.isError ? res.error : res.result, {
-    showHidden: false,
-    depth: null,
-    colors: true,
-    breakLength: 2,
-  }),
-);
+export { Binding } from './binding';
+export { Block } from './block';
+export { Function } from './function';
+export { Helper } from './helper';
+export { Ident } from './ident';
+export { Lambda } from './lambda';
+export { Module } from './module';
+export { Program } from './program';
+export { Symbols } from './symbols';
