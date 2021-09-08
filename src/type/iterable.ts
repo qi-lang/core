@@ -107,10 +107,14 @@ export namespace Iterable {
         Helper.Spacing.between(Symbols.Parser.COMMA),
       )(Helper.Spacing.between(pair));
 
-      export const object = Arc.takeLeft(Arc.takeRight(Arc.sequenceOf([
-        Symbols.Parser.PERCENT,
-        Symbols.Parser.Brace.LEFT,
-      ]))(items))(Symbols.Parser.Brace.RIGHT);
+      export const object = Arc.takeLeft(
+        Arc.takeRight(
+          Arc.str(Symbols.Raw.PERCENT + Symbols.Raw.Brace.LEFT),
+        )(items),
+      )(Symbols.Parser.Brace.RIGHT)
+        .map((body) => Iterable.Map.Structure.object(
+          body as Array<Iterable.Map.Structure.Pair.IPair>,
+        ));
     }
 
     export namespace Structure {
@@ -139,6 +143,23 @@ export namespace Iterable {
 
         export const object = (key: any, value: any) => new Object(key, value);
       }
+
+      export interface IMap extends Iterable.Template.Structure.IIterable {
+        readonly body: Array<Pair.IPair>;
+      }
+
+      class Object implements IMap {
+        public readonly _kind: Helper.Kind;
+
+        public readonly body: Array<Pair.IPair>;
+
+        constructor(body: Array<Pair.IPair>) {
+          this._kind = Helper.Kind.Map;
+          this.body = body;
+        }
+      }
+
+      export const object = (body: Array<Pair.IPair>) => new Object(body);
     }
   }
 

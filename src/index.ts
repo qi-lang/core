@@ -9,7 +9,7 @@ import * as Util from 'util';
 import { Iterable } from './type';
 
 const input = `
-%{a: true}
+%{a: true, hello_world: ["", true]}
 `.trim();
 
 const res = Iterable.Map.Parser.object.run(input);
