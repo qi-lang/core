@@ -7,7 +7,7 @@
 import consola from 'consola';
 import * as Util from 'util';
 import * as Fs from 'fs';
-import { Module } from './module';
+import { Iterable } from './type';
 
 const input = Fs.readFileSync(
   '/Users/zana/Desktop/core/examples/main.qi', {
@@ -15,7 +15,13 @@ const input = Fs.readFileSync(
   },
 );
 
-const res = Module.Parser.object.run(input);
+// const input = `
+// fn (x, y) ->
+//   :x
+// end
+// `.trim();
+
+const res = Iterable.Map.Parser.object.run(input.trim());
 
 consola.log(
   Util.inspect(res.isError ? res.error : res.result, {

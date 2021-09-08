@@ -7,3 +7,9 @@ module App do
     |> IO.puts()
   end
 end
+
+module Demo do
+  def say_hi(name \\ "World") do
+    "Hello, #{name}!"
+  end
+end

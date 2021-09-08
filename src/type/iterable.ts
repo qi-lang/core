@@ -4,8 +4,8 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
+// eslint-disable-next-line max-classes-per-file
 import * as Arc from 'arcsecond';
-
 import { Atom } from './atom';
 import { Bool } from './bool';
 import { Number } from './number';
@@ -85,7 +85,7 @@ export namespace Iterable {
           // String.Parser.object,
         ]),
       )(Symbols.Parser.COLON)
-        .map((body) => Ident.Structure.object(body));
+        .map((body) => Atom.Structure.object(body));
 
       const pair = Arc.sequenceOf([
         Helper.Spacing.between(mapAtom),
@@ -123,25 +123,25 @@ export namespace Iterable {
 
         // TODO: Change to any
         export interface IPair extends Helper.Structure.IBase {
-          readonly key: any,
+          readonly key: Atom.Structure.IAtom,
           readonly value: any
         }
 
         class Object implements IPair {
           public readonly _kind: Helper.Kind;
 
-          public readonly key: any;
+          public readonly key: Atom.Structure.IAtom;
 
           public readonly value: any;
 
-          constructor(key: any, value: any) {
+          constructor(key: Atom.Structure.IAtom, value: any) {
             this._kind = Helper.Kind.Pair;
             this.key = key;
             this.value = value;
           }
         }
 
-        export const object = (key: any, value: any) => new Object(key, value);
+        export const object = (key: Atom.Structure.IAtom, value: any) => new Object(key, value);
       }
 
       export interface IMap extends Iterable.Template.Structure.IIterable {

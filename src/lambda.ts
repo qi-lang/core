@@ -23,7 +23,9 @@ export namespace Lambda {
 
       const withParenthesis = Arc.between(
         Helper.Spacing.between(Symbols.Parser.Parenthesis.LEFT),
-      )(Helper.Spacing.between(Symbols.Parser.Parenthesis.RIGHT))(simple);
+      )(Helper.Spacing.between(Symbols.Parser.Parenthesis.RIGHT))(
+        Helper.Spacing.between(simple),
+      );
 
       export const object = Arc.choice([
         withParenthesis,
@@ -32,31 +34,31 @@ export namespace Lambda {
     }
 
     const body = Arc.recursiveParser(() => Arc.many(
-      Helper.Spacing.between(
-        Arc.choice([
-          // PTypes.Any,
-          Type.Iterable.List.Parser.object,
-          Type.Iterable.Tuple.Parser.object,
-          Type.Iterable.Map.Parser.object,
-          Type.Atom.Parser.object,
-          Type.String.Parser.object,
-          Type.Bool.Parser.object,
-          Type.Number.Parser.object,
+      Arc.choice([
+        // PTypes.Any,
+        Type.Iterable.List.Parser.object,
+        Type.Iterable.Tuple.Parser.object,
+        Type.Iterable.Map.Parser.object,
+        Type.Atom.Parser.object,
+        Type.String.Parser.object,
+        Type.Bool.Parser.object,
+        Type.Number.Parser.object,
 
-          // PBinding,
-          Binding.Parser.object,
+        // PBinding,
+        Binding.Parser.object,
 
-          // PBlock,
-          Block.Parser.object,
-        ]),
-      ),
+        // PBlock,
+        Block.Parser.object,
+      ]),
     ));
 
     export const object = Arc.sequenceOf([
-      Arc.between(Symbols.Parser.FN)(Symbols.Parser.Block.END)(
+      Arc.between(
+        Symbols.Parser.FN,
+      )(Symbols.Parser.Block.END)(
         Arc.sequenceOf([
           Arc.takeLeft(
-            Arc.possibly(Helper.Spacing.between1(Params.object)),
+            Helper.Spacing.between(Params.object),
           )(Symbols.Parser.Arrow.Thin.RIGHT),
           Helper.Spacing.between(
             body,
@@ -64,6 +66,20 @@ export namespace Lambda {
         ]),
       ),
     ]);
+
+    // export const object = Arc.sequenceOf([
+    //   Symbols.Parser.FN,
+    //   Symbols.Parser.Whitespace.SPACE,
+    //   Helper.Spacing.between(
+    //     Arc.sequenceOf([
+    //       (Params.object),
+    //       (Symbols.Parser.Arrow.Thin.RIGHT),
+    //       (body),
+    //     ]),
+    //   ),
+    //   Symbols.Parser.Whitespace.SPACE,
+    //   Symbols.Parser.Block.END,
+    // ]);
   }
 
   export namespace Structure {

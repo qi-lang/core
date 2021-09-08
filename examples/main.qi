@@ -1,5 +1,1 @@
-module Demo do
-  def say_hi(name \\ "World") do
-    "Hello, #{name}!"
-  end
-end
+%{x: :x}

@@ -29,29 +29,19 @@ export namespace Helper {
 
   export namespace Spacing {
 
-    const whitespace0 = Arc.possibly(
-      Arc.many(
-        Arc.choice([
-          Symbols.Parser.Whitespace.SPACE,
-          Symbols.Parser.Whitespace.TAB,
-          Symbols.Parser.Whitespace.NEWLINE,
-        ]),
-      ),
-    );
+    const whitespace = Arc.choice([
+      Symbols.Parser.Whitespace.SPACE,
+      Symbols.Parser.Whitespace.TAB,
+      Symbols.Parser.Whitespace.NEWLINE,
+    ]);
 
-    const whitespace1 = Arc.many1(
-      Arc.choice([
-        Symbols.Parser.Whitespace.SPACE,
-        Symbols.Parser.Whitespace.TAB,
-        Symbols.Parser.Whitespace.NEWLINE,
-      ]),
-    );
+    const whitespace0 = Arc.possibly(Arc.many(whitespace));
+
+    const whitespace1 = Arc.many1(whitespace);
 
     export const between = (input: Arc.Parser<any>) => Arc.between(whitespace0)(whitespace0)(input);
 
-    export const between1 = (input: Arc.Parser<any>) => Arc.between(whitespace1)(whitespace1)(
-      input,
-    );
+    export const between1 = (input: Arc.Parser<any>) => Arc.between(whitespace1)(whitespace1)(input);
 
     export const left = (input: Arc.Parser<any>) => Arc.takeRight(Arc.possibly(whitespace0))(input);
 
