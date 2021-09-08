@@ -15,6 +15,7 @@ export namespace Helper {
     List,
     Tuple,
     Ident,
+    Pair,
   }
 
   export namespace Structure {

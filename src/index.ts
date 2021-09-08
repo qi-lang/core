@@ -9,10 +9,10 @@ import * as Util from 'util';
 import { Iterable } from './type';
 
 const input = `
-{:ok, :err}
+%{a: true}
 `.trim();
 
-const res = Iterable.Tuple.Parser.object.run(input);
+const res = Iterable.Map.Parser.object.run(input);
 consola.log(
   Util.inspect(res.isError ? res.error : res.result, {
     showHidden: false,

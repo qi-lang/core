@@ -79,13 +79,13 @@ export namespace Iterable {
 
     export namespace Parser {
 
-      const mapAtom = Arc.sequenceOf([
+      const mapAtom = Arc.takeLeft(
         Arc.choice([
           Ident.Parser.object,
           // String.Parser.object,
         ]),
-        Symbols.Parser.COLON,
-      ]);
+      )(Symbols.Parser.COLON)
+        .map((body) => Ident.Structure.object(body));
 
       const pair = Arc.sequenceOf([
         Helper.Spacing.between(mapAtom),
@@ -100,7 +100,8 @@ export namespace Iterable {
             Iterable.Map.Parser.object,
           ])),
         ),
-      ]);
+      ])
+        .map((p) => Iterable.Map.Structure.Pair.object(p[0], p[1]));
 
       const items = Arc.sepBy(
         Helper.Spacing.between(Symbols.Parser.COMMA),
@@ -113,6 +114,31 @@ export namespace Iterable {
     }
 
     export namespace Structure {
+
+      export namespace Pair {
+
+        // TODO: Change to any
+        export interface IPair extends Helper.Structure.IBase {
+          readonly key: any,
+          readonly value: any
+        }
+
+        class Object implements IPair {
+          public readonly _kind: Helper.Kind;
+
+          public readonly key: any;
+
+          public readonly value: any;
+
+          constructor(key: any, value: any) {
+            this._kind = Helper.Kind.Pair;
+            this.key = key;
+            this.value = value;
+          }
+        }
+
+        export const object = (key: any, value: any) => new Object(key, value);
+      }
     }
   }
 
