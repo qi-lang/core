@@ -106,3 +106,4 @@ typings/
 .vscode
 .idea/
 test/**/*.js
+dist
