@@ -31,7 +31,9 @@ export namespace Module {
     );
 
     export const object = Arc.sequenceOf([
-      Arc.takeRight(Symbols.Parser.MODULE)(Helper.Spacing.between1(Ident.Parser.object)),
+      Arc.takeRight(
+        Symbols.Parser.MODULE,
+      )(Helper.Spacing.between1(Ident.Parser.object)),
       block,
     ]);
   }

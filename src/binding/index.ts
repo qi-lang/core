@@ -21,7 +21,11 @@ export namespace Binding {
     ]));
 
     export const object = Arc.sequenceOf([
-      Arc.takeLeft(Ident.Parser.object)(Helper.Spacing.between(Symbols.Parser.EQUAL)),
+      Arc.takeLeft(Ident.Parser.object)(
+        Helper.Spacing.between(
+          Symbols.Parser.EQUAL,
+        ),
+      ),
       body,
     ]);
   }

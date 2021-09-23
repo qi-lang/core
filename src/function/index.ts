@@ -15,13 +15,17 @@ export namespace Function {
 
   export namespace Parser {
 
-    const params = Arc.between(Symbols.Parser.Parenthesis.LEFT)(Symbols.Parser.Parenthesis.RIGHT)(
+    const params = Arc.between(
+      Symbols.Parser.Parenthesis.LEFT,
+    )(Symbols.Parser.Parenthesis.RIGHT)(
       Arc.sepBy(Helper.Spacing.between(Symbols.Parser.COMMA))(
         Arc.sequenceOf([
           Helper.Spacing.between(Ident.Parser.object),
 
           // default params
-          Arc.possibly(Arc.takeRight(Helper.Spacing.between(Symbols.Parser.Slashing.Back.DOUBLE))(
+          Arc.possibly(Arc.takeRight(
+            Helper.Spacing.between(Symbols.Parser.Slashing.Back.DOUBLE),
+          )(
             Arc.recursiveParser(() => Arc.choice([
               Type.Iterable.List.Parser.object,
               Type.Iterable.Tuple.Parser.object,
@@ -37,7 +41,9 @@ export namespace Function {
     );
 
     export const object = Arc.sequenceOf([
-      Arc.takeRight(Symbols.Parser.DEF)(Helper.Spacing.left(Ident.Parser.object)),
+      Arc.takeRight(
+        Symbols.Parser.DEF,
+      )(Helper.Spacing.left(Ident.Parser.object)),
       Arc.possibly(Helper.Spacing.between(params))
         .map((x) => (x === null ? [] : x)),
       Helper.Spacing.between(Block.Parser.object),
