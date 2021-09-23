@@ -5,7 +5,6 @@
  */
 
 export * from './type';
-
 export { Binding } from './binding';
 export { Block } from './block';
 export { Function } from './function';
