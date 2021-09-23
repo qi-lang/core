@@ -5,12 +5,12 @@
  */
 
 import * as Arc from 'arcsecond';
-import * as Type from './type';
-import { Symbols } from './symbols';
-import { Ident } from './ident';
-import { Binding } from './binding';
-import { Block } from './block';
-import { Helper } from './helper';
+import * as Type from '../type';
+import { Symbols } from '../_symbols';
+import { Ident } from '../ident';
+import { Binding } from '../binding';
+import { Block } from '../block';
+import { Helper } from '../_helpers';
 
 export namespace Lambda {
 

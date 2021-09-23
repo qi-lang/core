@@ -5,9 +5,9 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Symbols } from '../../symbols';
+import { Symbols } from '../../_symbols';
 import { Ident } from '../../ident';
-import { Helper } from '../../helper';
+import { Helper } from '../../_helpers';
 
 export namespace Atom {
 

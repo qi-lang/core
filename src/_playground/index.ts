@@ -6,7 +6,7 @@
 import consola from 'consola';
 import * as Util from 'util';
 import * as Fs from 'fs';
-import { Iterable } from './type';
+import { Iterable } from '../type';
 
 const input = Fs.readFileSync(
   '/Users/zana/Desktop/core/examples/main.qi', {

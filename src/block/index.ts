@@ -5,10 +5,10 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Symbols } from './symbols';
-import { Binding } from './binding';
-import * as Type from './type';
-import { Helper } from './helper';
+import { Symbols } from '../_symbols';
+import { Binding } from '../binding';
+import * as Type from '../type';
+import { Helper } from '../_helpers';
 
 export namespace Block {
 

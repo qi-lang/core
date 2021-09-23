@@ -5,9 +5,9 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Ident } from './ident';
-import { Symbols } from './symbols';
-import { Helper } from './helper';
+import { Ident } from '../ident';
+import { Symbols } from '../_symbols';
+import { Helper } from '../_helpers';
 
 export namespace Binding {
 

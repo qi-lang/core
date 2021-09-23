@@ -10,9 +10,9 @@ import { Atom } from '../atom';
 import { Bool } from '../bool';
 import { Number } from '../number';
 import { String } from '../string';
-import { Symbols } from '../../symbols';
+import { Symbols } from '../../_symbols';
 import { Ident } from '../../ident';
-import { Helper } from '../../helper';
+import { Helper } from '../../_helpers';
 
 export namespace Iterable {
 

@@ -5,10 +5,10 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Symbols } from './symbols';
-import { Ident } from './ident';
-import { Function } from './function';
-import { Helper } from './helper';
+import { Symbols } from '../_symbols';
+import { Ident } from '../ident';
+import { Function } from '../function';
+import { Helper } from '../_helpers';
 
 export namespace Module {
 
