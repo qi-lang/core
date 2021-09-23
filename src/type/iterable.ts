@@ -19,21 +19,20 @@ export namespace Iterable {
   export namespace Template {
 
     export namespace Parser {
-      const body = Arc.recursiveParser(() => Arc.choice([
-        // !TODO: Add other complex types such as ident.
-        Atom.Parser.object,
-        Bool.Parser.object,
-        Number.Parser.object,
-        String.Parser.object,
-        Iterable.List.Parser.object,
-        Iterable.Tuple.Parser.object,
-        Iterable.Map.Parser.object,
-      ]));
+       const body = Arc.recursiveParser(() => Arc.choice([
+         // !TODO: Add other complex types such as ident.
+         Atom.Parser.object,
+         Bool.Parser.object,
+         Number.Parser.object,
+         String.Parser.object,
+         Iterable.List.Parser.object,
+         Iterable.Tuple.Parser.object,
+         Iterable.Map.Parser.object,
+       ]));
 
       export const object = Arc.sepBy(
         Helper.Spacing.between(Symbols.Parser.COMMA),
       )(Helper.Spacing.between(body));
-
     }
 
     export namespace Structure {
