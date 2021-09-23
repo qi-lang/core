@@ -6,8 +6,8 @@
 
 import * as Arc from 'arcsecond';
 
-import { Symbols } from '../symbols';
-import { Helper } from '../helper';
+import { Symbols } from '../../symbols';
+import { Helper } from '../../helper';
 
 export namespace Number {
 

@@ -6,13 +6,13 @@
 
 // eslint-disable-next-line max-classes-per-file
 import * as Arc from 'arcsecond';
-import { Atom } from './atom';
-import { Bool } from './bool';
-import { Number } from './number';
-import { String } from './string';
-import { Symbols } from '../symbols';
-import { Ident } from '../ident';
-import { Helper } from '../helper';
+import { Atom } from '../atom';
+import { Bool } from '../bool';
+import { Number } from '../number';
+import { String } from '../string';
+import { Symbols } from '../../symbols';
+import { Ident } from '../../ident';
+import { Helper } from '../../helper';
 
 export namespace Iterable {
 
