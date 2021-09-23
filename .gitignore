@@ -107,3 +107,4 @@ typings/
 .idea/
 test/**/*.js
 dist
+types
