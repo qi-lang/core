@@ -30,7 +30,7 @@
     "build": "yarn tidy && tsc -p tsconfig.build.json",
     "watch": "concurrently -k -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc -p tsconfig.build.json --watch\" \"nodemon\"",
     "dev": "yarn tidy && yarn watch",
-    "test": "mocha --require ts-node/register --recursive ./test/**/*.ts"
+    "test": "mocha --require ts-node/register --recursive ./test/**/**/*.ts"
   },
   "dependencies": {
     "@types/mocha": "^9.0.0",

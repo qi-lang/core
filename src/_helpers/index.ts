@@ -30,6 +30,8 @@ export namespace Helper {
     Pair,
     // eslint-disable-next-line no-unused-vars
     Map,
+    // eslint-disable-next-line no-unused-vars
+    Binding,
   }
 
   export namespace Structure {

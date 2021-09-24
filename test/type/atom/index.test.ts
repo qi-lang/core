@@ -6,17 +6,12 @@
 
 import { describe, it } from 'mocha';
 import { Atom } from '../../../src/type';
-import { Ident } from '../../../src/ident';
 import { test } from '../../template.test';
 
 describe('atom parser', () => {
   it('is complete', () => {
     const subject = Atom.Parser.object.run(':ok');
-    const expected = JSON.stringify(
-      Atom.Structure.object(
-        Ident.Structure.object('ok'),
-      ),
-    );
+    const expected = JSON.stringify(Atom.Structure.object('ok'));
     test(subject, expected);
   });
 });

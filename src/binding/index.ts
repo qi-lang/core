@@ -22,15 +22,35 @@ export namespace Binding {
 
     export const object = Arc.sequenceOf([
       Arc.takeLeft(Ident.Parser.object)(
-        Helper.Spacing.between(
-          Symbols.Parser.EQUAL,
-        ),
+        Helper.Spacing.between(Symbols.Parser.EQUAL),
       ),
       body,
     ]);
   }
 
   export namespace Structure {
+    export interface IBinding extends Helper.Structure.IBase {
+      readonly ident: Ident.Structure.IIdent;
+      readonly body: any;
+    }
 
+    class Object implements IBinding {
+      public readonly _kind: Helper.Kind;
+
+      public readonly ident: Ident.Structure.IIdent;
+
+      public readonly body: any;
+
+      constructor(ident: Ident.Structure.IIdent, body: any) {
+        this._kind = Helper.Kind.Binding;
+        this.ident = ident;
+        this.body = body;
+      }
+    }
+
+    export const object = (
+      ident: Ident.Structure.IIdent,
+      body: any,
+    ) => new Object(ident, body);
   }
 }
