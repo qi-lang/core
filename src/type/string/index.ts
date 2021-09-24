@@ -12,6 +12,7 @@ export namespace String {
 
     // TODO: Temporary?
     export const object = Arc.regex(
+      // eslint-disable-next-line max-len
       /^("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/,
     );
   }
