@@ -66,23 +66,12 @@ export namespace Lambda {
         ]),
       ),
     ]);
-
-    // export const object = Arc.sequenceOf([
-    //   Symbols.Parser.FN,
-    //   Symbols.Parser.Whitespace.SPACE,
-    //   Helper.Spacing.between(
-    //     Arc.sequenceOf([
-    //       (Params.object),
-    //       (Symbols.Parser.Arrow.Thin.RIGHT),
-    //       (body),
-    //     ]),
-    //   ),
-    //   Symbols.Parser.Whitespace.SPACE,
-    //   Symbols.Parser.Block.END,
-    // ]);
   }
 
   export namespace Structure {
 
+    export interface ILambda extends Helper.Structure.IBase {
+
+    }
   }
 }
