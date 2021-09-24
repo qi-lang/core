@@ -51,5 +51,38 @@ export namespace Function {
   }
 
   export namespace Structure {
+
+    export interface IFunction extends Helper.Structure.IBase {
+      readonly ident: Ident.Structure.IIdent;
+      readonly parameters: any[];
+      readonly body: any[];
+    }
+
+    class Object implements IFunction {
+      public readonly _kind: Helper.Kind;
+
+      public readonly ident: Ident.Structure.IIdent;
+
+      public readonly parameters: any[];
+
+      public readonly body: any[];
+
+      constructor(
+        ident: Ident.Structure.IIdent,
+        parameters: any[],
+        body: any[],
+      ) {
+        this._kind = Helper.Kind.Function;
+        this.ident = ident;
+        this.parameters = parameters;
+        this.body = body;
+      }
+    }
+
+    export const object = (
+      ident: Ident.Structure.IIdent,
+      parameters: any[],
+      body: any[],
+    ) => new Object(ident, parameters, body);
   }
 }
