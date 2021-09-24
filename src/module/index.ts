@@ -39,5 +39,21 @@ export namespace Module {
   }
 
   export namespace Structure {
+    export interface IModule extends Helper.Structure.IBase {
+      readonly body: any[];
+    }
+
+    class Object implements IModule {
+      public readonly _kind: Helper.Kind;
+
+      public readonly body: any[];
+
+      constructor(body: any[]) {
+        this._kind = Helper.Kind.Module;
+        this.body = body;
+      }
+    }
+
+    export const object = (body: any[]) => new Object(body);
   }
 }

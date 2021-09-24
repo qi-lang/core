@@ -36,6 +36,8 @@ export namespace Helper {
     Block,
     // eslint-disable-next-line no-unused-vars
     Function,
+    // eslint-disable-next-line no-unused-vars
+    Module,
   }
 
   export namespace Structure {
