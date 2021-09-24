@@ -5,9 +5,9 @@
  */
 
 import * as Arc from 'arcsecond';
+import * as Type from '../type';
 import { Symbols } from '../_symbols';
 import { Binding } from '../binding';
-import * as Type from '../type';
 import { Helper } from '../_helpers';
 
 export namespace Block {
@@ -42,6 +42,21 @@ export namespace Block {
   }
 
   export namespace Structure {
-  }
+    export interface IBlock extends Helper.Structure.IBase {
+      readonly body: Array<any>;
+    }
 
+    class Object implements IBlock {
+      public readonly _kind: Helper.Kind;
+
+      public readonly body: any[];
+
+      constructor(body: any[]) {
+        this._kind = Helper.Kind.Block;
+        this.body = body;
+      }
+    }
+
+    export const object = (body: any[]) => new Object(body);
+  }
 }
