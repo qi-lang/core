@@ -6,7 +6,7 @@
 
 import * as Arc from 'arcsecond';
 import { Module } from '../module';
-import { Helper } from '../_helpers';
+import { Helper } from '../helpers';
 
 export namespace Program {
 

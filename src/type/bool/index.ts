@@ -5,8 +5,8 @@
  */
 
 import * as Arc from 'arcsecond';
-import { Symbols } from '../../_symbols';
-import { Helper } from '../../_helpers';
+import { Symbols } from '../../symbols';
+import { Helper } from '../../helpers';
 
 export namespace Bool {
 

@@ -6,11 +6,11 @@
 
 import * as Arc from 'arcsecond';
 import * as Type from '../type';
-import { Symbols } from '../_symbols';
+import { Symbols } from '../symbols';
 import { Ident } from '../ident';
 import { Binding } from '../binding';
 import { Block } from '../block';
-import { Helper } from '../_helpers';
+import { Helper } from '../helpers';
 
 export namespace Lambda {
 

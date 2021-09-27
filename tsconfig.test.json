@@ -4,6 +4,14 @@
     "outDir": "test/compiled",
     "rootDir": "test"
   },
-  "include": ["test"],
-  "exclude": ["dist", "node_modules", "src", ".idea", "types"]
+  "include": [
+    "test"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "src",
+    ".idea",
+    "types"
+  ]
 }
