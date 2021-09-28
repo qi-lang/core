@@ -1,3 +1,9 @@
+/*
+ * Copyright Qi Lang. 2021 All Rights Reserved.
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
+ */
+
 //! Important
 //  This is not a rendered file. It is meant for visualising a render only.
 
@@ -23,4 +29,4 @@ let A;
   } else {
     console.log('Meh that\'s a boring number...');
   }
-})();
+}());
