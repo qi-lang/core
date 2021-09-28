@@ -108,6 +108,13 @@ pub fn number(input: &str) -> nom::IResult<&str, &str> {
     ))(input)
 }
 
+pub fn alpha_numeric(input: &str) -> nom::IResult<&str, &str> {
+    nom::branch::alt((
+        alpha,
+        number
+    ))(input)
+}
+
 
 #[cfg(test)]
 mod tests {
