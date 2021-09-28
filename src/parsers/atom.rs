@@ -13,9 +13,6 @@ pub struct Atom {
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Atom> {
-
-    // :ok
-
     let (input, body) = nom::combinator::all_consuming(
         nom::sequence::tuple((
             nom::bytes::complete::tag(raw::COLON),
