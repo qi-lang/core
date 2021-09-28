@@ -12,7 +12,7 @@
     "dist",
     "node_modules",
     "test",
-    ".idea",
+    "../.idea",
     "types"
   ]
 }
