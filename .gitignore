@@ -108,3 +108,8 @@ typings/
 test/**/*.js
 dist
 types
+
+# Added by cargo
+
+/target
+Cargo.lock
