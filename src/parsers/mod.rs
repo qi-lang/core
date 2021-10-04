@@ -6,3 +6,5 @@
 
 pub mod atom;
 pub mod bool;
+pub mod module;
+pub mod ident;

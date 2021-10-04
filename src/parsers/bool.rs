@@ -4,8 +4,6 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
-
-use crate::symbols::complete;
 use crate::symbols::raw;
 
 #[derive(Debug, PartialEq)]
@@ -19,12 +17,7 @@ pub fn parse(input: &str) -> nom::IResult<&str, Bool> {
         nom::bytes::complete::tag(raw::FALSE),
     ))(input)?;
 
-    let body = if body == raw::TRUE {
-        true
-    } else {
-        false
-    };
-
+    let body = if body == raw::TRUE { true } else { false };
     Ok((input, Bool { body }))
 }
 
