@@ -115,3 +115,8 @@ types
 Cargo.lock
 
 *.iml
+
+
+# custom
+
+demo_ignore/

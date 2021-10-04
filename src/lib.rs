@@ -1,7 +1,7 @@
 pub mod parsers;
 pub mod symbols;
 
-fn parse_from_file<T>(path: &str, parser: fn(&str) -> Result<(&str, T), core::fmt::Error<&str>>) {
+fn parse_from_file<T: std::fmt::Debug>(path: &str, parser: fn(&str) -> nom::IResult<&str, T>) {
     let data = std::fs::read_to_string(&path);
 
     let data = match data {
@@ -12,7 +12,7 @@ fn parse_from_file<T>(path: &str, parser: fn(&str) -> Result<(&str, T), core::fm
     let result = parser(&data);
 
     match result {
-        Ok((_, parsed)) => println!("{:?}", parsed),
+        Ok((_, parsed)) => println!("{:?}", &parsed),
         Err(e) => match e {
             nom::Err::Incomplete(i) => println!("{:?}", i),
             nom::Err::Error(i) => println!("{}", i),
