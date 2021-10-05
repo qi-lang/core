@@ -6,6 +6,7 @@
 
 pub mod atom;
 pub mod bool;
-pub mod string;
-pub mod module;
 pub mod ident;
+pub mod list;
+pub mod module;
+pub mod string;

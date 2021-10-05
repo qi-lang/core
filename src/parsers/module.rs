@@ -4,27 +4,27 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
-use crate::parsers::ident;
-use crate::symbols::complete;
+use crate::parsers;
 use crate::symbols::raw;
 
-pub trait ModuleBody: std::fmt::Debug {}
-
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Module {
-    ident: ident::Ident,
-    body: Vec<Box<dyn ModuleBody>>,
+    ident: parsers::ident::Ident,
+    body: Vec<ModuleBody>,
 }
 
-impl ModuleBody for Module {}
+#[derive(Debug, PartialEq)]
+pub enum ModuleBody {
+    Module(parsers::module::Module),
+    // todo: Function(parsers::function::Function),
+}
 
 pub fn parse(input: &str) -> nom::IResult<&str, Module> {
     let (input, result) = nom::sequence::tuple((
         nom::bytes::complete::tag(raw::MODULE),
         nom::sequence::tuple((
             nom::character::complete::multispace1,
-            // ident
-            nom::multi::many1(complete::character::alpha_numeric),
+            parsers::ident::parse,
             nom::character::complete::multispace1,
         )),
         nom::bytes::complete::tag(raw::DO),
@@ -32,13 +32,15 @@ pub fn parse(input: &str) -> nom::IResult<&str, Module> {
         nom::bytes::complete::tag(raw::END),
     ))(input)?;
 
-    let ident = ident::Ident {
-        body: result.1 .1.join(""),
-    };
-
     // TODO:
     let body = vec![];
-    Ok((input, Module { ident, body }))
+    Ok((
+        input,
+        Module {
+            ident: (result.1).1,
+            body,
+        },
+    ))
 }
 
 #[test]
