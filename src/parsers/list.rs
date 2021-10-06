@@ -18,8 +18,6 @@ pub enum ListBody {
     Bool(parsers::bool::Bool),
 }
 
-// [1,2] ->
-
 pub fn sequence(input: &str) -> nom::IResult<&str, Vec<ListBody>> {
     let (input, result) = nom::multi::separated_list0(
         nom::bytes::complete::tag(raw::COMMA),
