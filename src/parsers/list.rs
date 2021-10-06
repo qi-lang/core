@@ -5,6 +5,7 @@
  */
 
 use crate::parsers;
+use crate::symbols::raw;
 
 #[derive(Debug, PartialEq)]
 pub struct List {
@@ -17,26 +18,38 @@ pub enum ListBody {
     Bool(parsers::bool::Bool),
 }
 
-pub fn parse(input: &str) -> nom::IResult<&str, List> {
-    // let (input, result) = nom::sequence::tuple((
-    //     nom::bytes::complete::tag(raw::bracket::LEFT),
-    //     parsers::atom::parse,
-    //     nom::multi::many0(nom::sequence::preceded(
-    //         nom::bytes::complete::tag(raw::COMMA),
-    //         parsers::atom::parse,
-    //     )),
-    //     nom::bytes::complete::tag(raw::bracket::RIGHT),
-    // ))(input)?;
-    // println!("{:#?}", result);
-    // Ok((
-    //     input,
-    //     List {
-    //         body: vec![ListBody::Atom(parsers::atom::Atom {
-    //             body: "true".to_string(),
-    //         })],
-    //     },
-    // ));
-    unimplemented!()
+// [1,2] ->
+
+pub fn sequence(input: &str) -> nom::IResult<&str, Vec<ListBody>> {
+    let (input, result) = nom::multi::separated_list0(
+        nom::bytes::complete::tag(raw::COMMA),
+        parsers::atom::parse,
+    )(input)?;
+
+    let result = result.iter().map(|x| ListBody::Atom(x.clone())).collect();
+
+    Ok((input, result))
+}
+
+pub fn parse(input: &str) -> nom::IResult<&str, Vec<parsers::bool::Bool>> {
+    let (input, result) = nom::sequence::delimited(
+        nom::bytes::complete::tag(raw::bracket::LEFT),
+        nom::multi::separated_list0(
+            nom::sequence::delimited(
+                nom::character::complete::multispace0,
+                nom::bytes::complete::tag(raw::COMMA),
+                nom::character::complete::multispace0,
+            ),
+            nom::sequence::delimited(
+                nom::character::complete::multispace0,
+                parsers::bool::parse,
+                nom::character::complete::multispace0,
+            ),
+        ),
+        nom::bytes::complete::tag(raw::bracket::RIGHT),
+    )(input)?;
+
+    Ok((input, result))
 }
 
 #[cfg(test)]
@@ -44,13 +57,16 @@ mod tests {
 
     #[test]
     fn test() {
-        let result = crate::parsers::list::parse("[]");
+        let result = crate::parsers::list::sequence(":ok,:another");
         match result {
-            Ok((_, list)) => assert_eq!(list, crate::parsers::list::List { body: vec![] }),
+            Ok((_, list)) => {
+                println!("{:?}", list);
+                // assert_eq!(list, crate::parsers::list::List { body: vec![] })
+            }
             Err(e) => match e {
-                nom::Err::Incomplete(i) => eprintln!("{:#?}", i),
-                nom::Err::Error(i) => eprintln!("{}", i),
-                nom::Err::Failure(i) => eprintln!("{}", i),
+                nom::Err::Incomplete(i) => assert!(false, "{:#?}", i),
+                nom::Err::Error(i) => assert!(false, "{}", i),
+                nom::Err::Failure(i) => assert!(false, "{}", i),
             },
         }
     }

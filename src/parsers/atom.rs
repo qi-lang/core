@@ -7,7 +7,7 @@
 use crate::parsers;
 use crate::symbols::raw;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Atom {
     pub body: String,
 }
