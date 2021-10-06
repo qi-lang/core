@@ -4,9 +4,17 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
+// Primitives
 pub mod atom;
 pub mod bool;
-pub mod ident;
-pub mod list;
-pub mod module;
+pub mod number;
 pub mod string;
+
+// Complex
+pub mod list;
+
+// Misc
+pub mod ident;
+
+// Constructs
+pub mod module;
