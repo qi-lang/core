@@ -5,6 +5,7 @@
  */
 
 use crate::symbols::complete;
+use crate::symbols::raw;
 
 #[derive(Debug)]
 pub struct Number {
@@ -33,7 +34,7 @@ pub fn int(input: &str) -> nom::IResult<&str, Number> {
 pub fn float(input: &str) -> nom::IResult<&str, Number> {
     let (input, result) = nom::sequence::tuple((
         pre_transform_digits,
-        nom::bytes::complete::tag("."),
+        nom::bytes::complete::tag(raw::PERIOD),
         pre_transform_digits,
     ))(input)?;
 
