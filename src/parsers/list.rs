@@ -9,11 +9,11 @@ use crate::symbols::raw;
 
 #[derive(Debug, PartialEq)]
 pub struct List {
-    pub body: Vec<ListBody>,
+    pub body: Vec<IterableBody>,
 }
 
 #[derive(Debug, PartialEq)]
-pub enum ListBody {
+pub enum IterableBody {
     Atom(parsers::atom::Atom),
     Bool(parsers::bool::Bool),
     Number(parsers::number::Number),
@@ -24,32 +24,32 @@ pub enum ListBody {
     // Map(parsers::map::Map),
 }
 
-pub fn get_atom(input: &str) -> nom::IResult<&str, ListBody> {
+pub fn get_atom(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = parsers::atom::parse(input)?;
-    Ok((input, ListBody::Atom(result)))
+    Ok((input, IterableBody::Atom(result)))
 }
 
-pub fn get_bool(input: &str) -> nom::IResult<&str, ListBody> {
+pub fn get_bool(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = parsers::bool::parse(input)?;
-    Ok((input, ListBody::Bool(result)))
+    Ok((input, IterableBody::Bool(result)))
 }
 
-pub fn get_string(input: &str) -> nom::IResult<&str, ListBody> {
+pub fn get_string(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = parsers::string::parse(input)?;
-    Ok((input, ListBody::String(result)))
+    Ok((input, IterableBody::String(result)))
 }
 
-pub fn get_number(input: &str) -> nom::IResult<&str, ListBody> {
+pub fn get_number(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = parsers::number::parse(input)?;
-    Ok((input, ListBody::Number(result)))
+    Ok((input, IterableBody::Number(result)))
 }
 
-pub fn get_list(input: &str) -> nom::IResult<&str, ListBody> {
+pub fn get_list(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = parsers::list::parse(input)?;
-    Ok((input, ListBody::List(result)))
+    Ok((input, IterableBody::List(result)))
 }
 
-pub fn get_body(input: &str) -> nom::IResult<&str, ListBody> {
+pub fn get_body(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) =
         nom::branch::alt((get_bool, get_atom, get_number, get_string, get_list))(input)?;
     Ok((input, result))
@@ -96,7 +96,7 @@ mod tests {
             },
         };
 
-        let expected = list::ListBody::Atom(atom::Atom {
+        let expected = list::IterableBody::Atom(atom::Atom {
             body: "ok".to_string(),
         });
 
@@ -115,7 +115,7 @@ mod tests {
             },
         };
 
-        let expected = list::ListBody::Number(number::Number { body: 3.14 as f64 });
+        let expected = list::IterableBody::Number(number::Number { body: 3.14 as f64 });
 
         assert_eq!(expected, result)
     }
@@ -132,7 +132,7 @@ mod tests {
             },
         };
 
-        let expected = list::ListBody::String(string::String {
+        let expected = list::IterableBody::String(string::String {
             body: "Hello World".to_string(),
         });
 
@@ -151,7 +151,7 @@ mod tests {
             },
         };
 
-        let expected = list::ListBody::Bool(bool::Bool { body: true });
+        let expected = list::IterableBody::Bool(bool::Bool { body: true });
 
         assert_eq!(expected, result)
     }
@@ -170,8 +170,8 @@ mod tests {
         };
 
         let expected = list::List {
-            body: vec![list::ListBody::List(list::List {
-                body: vec![list::ListBody::List(list::List { body: vec![] })],
+            body: vec![list::IterableBody::List(list::List {
+                body: vec![list::IterableBody::List(list::List { body: vec![] })],
             })],
         };
 
@@ -191,7 +191,7 @@ mod tests {
             },
         };
 
-        let expected = list::ListBody::Atom(atom::Atom {
+        let expected = list::IterableBody::Atom(atom::Atom {
             body: "atom".to_string(),
         });
 
@@ -213,14 +213,14 @@ mod tests {
 
         let expected = list::List {
             body: vec![
-                list::ListBody::Atom(atom::Atom {
+                list::IterableBody::Atom(atom::Atom {
                     body: "ok".to_string(),
                 }),
-                list::ListBody::Bool(bool::Bool { body: true }),
-                list::ListBody::Number(number::Number {
+                list::IterableBody::Bool(bool::Bool { body: true }),
+                list::IterableBody::Number(number::Number {
                     body: 3.1415 as f64,
                 }),
-                list::ListBody::String(string::String {
+                list::IterableBody::String(string::String {
                     body: "".to_string(),
                 }),
             ],
