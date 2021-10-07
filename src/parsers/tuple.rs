@@ -7,7 +7,12 @@
 use crate::parsers;
 use crate::symbols::raw;
 
-pub fn parse(input: &str) -> nom::IResult<&str, Vec<parsers::bool::Bool>> {
+#[derive(Debug, PartialEq)]
+pub struct Tuple {
+    pub body: Vec<parsers::list::IterableBody>,
+}
+
+pub fn parse(input: &str) -> nom::IResult<&str, Tuple> {
     let (input, result) = nom::sequence::delimited(
         nom::bytes::complete::tag(raw::brace::LEFT),
         nom::multi::separated_list0(
@@ -18,12 +23,42 @@ pub fn parse(input: &str) -> nom::IResult<&str, Vec<parsers::bool::Bool>> {
             ),
             nom::sequence::delimited(
                 nom::character::complete::multispace0,
-                parsers::bool::parse,
+                parsers::list::get_body,
                 nom::character::complete::multispace0,
             ),
         ),
         nom::bytes::complete::tag(raw::brace::RIGHT),
     )(input)?;
 
-    Ok((input, result))
+    Ok((input, Tuple { body: result }))
+}
+
+#[cfg(test)]
+mod tests {
+
+    use crate::parsers;
+
+    #[test]
+    fn test() {
+        let result = parsers::tuple::parse("{:ok, true}");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = parsers::tuple::Tuple {
+            body: vec![
+                parsers::list::IterableBody::Atom(parsers::atom::Atom {
+                    body: "ok".to_string(),
+                }),
+                parsers::list::IterableBody::Bool(parsers::bool::Bool { body: true }),
+            ],
+        };
+
+        assert_eq!(expected, result)
+    }
 }
