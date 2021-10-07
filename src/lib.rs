@@ -7,33 +7,7 @@
 pub mod parsers;
 pub mod symbols;
 
-// fn measure_execution_time(repeat: u64, parser: fn(&str) -> nom::IResult) {
-//     let mut average_execution_time = 0 as f64;
-//     let parser = qi_core::parsers::tuple::parse;
-
-//     for _c in 0..repeat {
-//         let start = std::time::Instant::now();
-//         qi_core::parse_from_file("./playground/other.qi");
-//         average_execution_time += start.elapsed().as_secs_f64();
-//     }
-
-//     average_execution_time = average_execution_time / repeat as f64;
-
-//     println!(
-//         "The average execution time is {} seconds\nRepeated {} times.\n",
-//         average_execution_time, repeat
-//     );
-
-//     println!(
-//         "Result: {:#?}",
-//         qi_core::parse_from_file("./playground/other.qi", qi_core::parsers::tuple::parse)
-//     )
-// }
-
-pub fn parse_from_file<T: std::fmt::Debug>(
-    path: &str,
-    parser: fn(&str) -> nom::IResult<&str, T>,
-) -> T {
+pub fn parse_from_file<T>(path: &str, parser: fn(&str) -> nom::IResult<&str, T>) -> T {
     let data = std::fs::read_to_string(&path);
 
     let data = match data {

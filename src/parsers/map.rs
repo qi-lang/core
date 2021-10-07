@@ -15,6 +15,7 @@ pub enum MapBody {
     String(parsers::string::String),
     List(parsers::list::List),
     Tuple(parsers::tuple::Tuple),
+    Map(parsers::map::Map),
     Ident(parsers::ident::Ident),
 }
 
@@ -64,6 +65,11 @@ pub fn get_ident(input: &str) -> nom::IResult<&str, MapBody> {
     Ok((input, MapBody::Ident(result)))
 }
 
+pub fn get_map(input: &str) -> nom::IResult<&str, MapBody> {
+    let (input, result) = parsers::map::parse(input)?;
+    Ok((input, MapBody::Map(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, Pair> {
     let (input, result) = nom::sequence::pair(
         nom::sequence::delimited(
@@ -74,7 +80,7 @@ pub fn get_body(input: &str) -> nom::IResult<&str, Pair> {
         nom::sequence::delimited(
             nom::character::complete::multispace0,
             nom::branch::alt((
-                get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident,
+                get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident, get_map,
             )),
             nom::character::complete::multispace0,
         ),
@@ -111,4 +117,12 @@ pub fn parse(input: &str) -> nom::IResult<&str, Map> {
     )(input)?;
 
     Ok((input, Map { body: result }))
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test() {
+        todo!("please add some tests here")
+    }
 }

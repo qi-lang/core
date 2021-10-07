@@ -22,7 +22,7 @@ pub enum IterableBody {
     Tuple(parsers::tuple::Tuple),
     Ident(parsers::ident::Ident),
     // TODO
-    // Map(parsers::map::Map),
+    Map(parsers::map::Map),
     // Lambda(parsers::map::Map),
 }
 
@@ -61,9 +61,14 @@ pub fn get_ident(input: &str) -> nom::IResult<&str, IterableBody> {
     Ok((input, IterableBody::Ident(result)))
 }
 
+pub fn get_map(input: &str) -> nom::IResult<&str, IterableBody> {
+    let (input, result) = parsers::map::parse(input)?;
+    Ok((input, IterableBody::Map(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = nom::branch::alt((
-        get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident,
+        get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident, get_map,
     ))(input)?;
     Ok((input, result))
 }
@@ -95,6 +100,7 @@ mod tests {
     use crate::parsers::bool;
     use crate::parsers::ident;
     use crate::parsers::list;
+    use crate::parsers::map;
     use crate::parsers::number;
     use crate::parsers::string;
     use crate::parsers::tuple;
@@ -210,6 +216,25 @@ mod tests {
             body: vec![list::IterableBody::Tuple(tuple::Tuple {
                 body: vec![list::IterableBody::Tuple(tuple::Tuple { body: vec![] })],
             })],
+        };
+
+        assert_eq!(expected, result)
+    }
+    #[test]
+    fn test_get_map() {
+        let result = list::parse("[%{}]");
+
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::List {
+            body: vec![list::IterableBody::Map(map::Map { body: vec![] })],
         };
 
         assert_eq!(expected, result)
