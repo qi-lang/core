@@ -19,10 +19,11 @@ pub enum IterableBody {
     Number(parsers::number::Number),
     String(parsers::string::String),
     List(parsers::list::List),
-    // TODO
     Tuple(parsers::tuple::Tuple),
     Ident(parsers::ident::Ident),
+    // TODO
     // Map(parsers::map::Map),
+    // Lambda(parsers::map::Map),
 }
 
 pub fn get_atom(input: &str) -> nom::IResult<&str, IterableBody> {

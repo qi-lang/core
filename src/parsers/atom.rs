@@ -19,100 +19,59 @@ pub fn parse(input: &str) -> nom::IResult<&str, Atom> {
     )(input)?;
 
     let body = body.body;
+    Ok((input, Atom { body }))
+}
 
+pub fn terminated(input: &str) -> nom::IResult<&str, Atom> {
+    let (input, body) = nom::sequence::terminated(
+        parsers::ident::parse,
+        nom::bytes::complete::tag(raw::COLON),
+    )(input)?;
+
+    let body = body.body;
     Ok((input, Atom { body }))
 }
 
 #[cfg(test)]
 mod tests {
 
+    use crate::parsers;
+
     #[test]
-    fn test_single_alpha() {
-        let subject = ":o";
-        let result = crate::parsers::atom::parse(subject);
-        assert_eq!(
-            result,
-            Ok((
-                "",
-                crate::parsers::atom::Atom {
-                    body: "o".to_string()
-                }
-            ))
-        )
+    fn test_preceded() {
+        let result = parsers::atom::parse(":ok");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = parsers::atom::Atom {
+            body: "ok".to_string(),
+        };
+
+        assert_eq!(expected, result)
     }
 
     #[test]
-    fn test_multi_alpha() {
-        let subject = ":hello";
-        let result = crate::parsers::atom::parse(subject);
-        assert_eq!(
-            result,
-            Ok((
-                "",
-                crate::parsers::atom::Atom {
-                    body: "hello".to_string()
-                }
-            ))
-        )
-    }
+    fn test_terminated() {
+        let result = parsers::atom::terminated("ok:");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
 
-    #[test]
-    fn test_alpha_numeric() {
-        let subject = ":h1e2l3l4o";
-        let result = crate::parsers::atom::parse(subject);
-        assert_eq!(
-            result,
-            Ok((
-                "",
-                crate::parsers::atom::Atom {
-                    body: "h1e2l3l4o".to_string()
-                }
-            ))
-        )
-    }
+        let expected = parsers::atom::Atom {
+            body: "ok".to_string(),
+        };
 
-    #[test]
-    fn test_pre_underscore() {
-        let subject = ":_ok";
-        let result = crate::parsers::atom::parse(subject);
-        assert_eq!(
-            result,
-            Ok((
-                "",
-                crate::parsers::atom::Atom {
-                    body: "_ok".to_string()
-                }
-            ))
-        )
-    }
-
-    #[test]
-    fn test_post_underscore() {
-        let subject = ":ok_";
-        let result = crate::parsers::atom::parse(subject);
-        assert_eq!(
-            result,
-            Ok((
-                "",
-                crate::parsers::atom::Atom {
-                    body: "ok_".to_string()
-                }
-            ))
-        )
-    }
-
-    #[test]
-    fn test_underscore() {
-        let subject = ":__ok__";
-        let result = crate::parsers::atom::parse(subject);
-        assert_eq!(
-            result,
-            Ok((
-                "",
-                crate::parsers::atom::Atom {
-                    body: "__ok__".to_string()
-                }
-            ))
-        )
+        assert_eq!(expected, result)
     }
 }

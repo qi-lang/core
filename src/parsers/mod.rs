@@ -12,6 +12,7 @@ pub mod number;
 pub mod string;
 
 pub mod list;
+pub mod map;
 pub mod tuple;
 
 pub mod module;
