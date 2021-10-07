@@ -8,7 +8,7 @@ use crate::symbols::raw;
 
 #[derive(Debug, PartialEq)]
 pub struct Bool {
-    body: bool,
+    pub body: bool,
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Bool> {

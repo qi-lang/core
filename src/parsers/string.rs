@@ -7,7 +7,7 @@
 use crate::symbols::complete;
 use crate::symbols::raw;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct String {
     pub body: std::string::String,
 }
@@ -39,9 +39,5 @@ pub fn parse(input: &str) -> nom::IResult<&str, String> {
 mod tests {
 
     #[test]
-    fn test() {
-        let input = "\"\"";
-        // let result = crate::parsers::string::parse(input);
-        todo!("add the assert here")
-    }
+    fn test() {}
 }

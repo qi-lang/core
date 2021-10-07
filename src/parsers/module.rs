@@ -43,9 +43,13 @@ pub fn parse(input: &str) -> nom::IResult<&str, Module> {
     ))
 }
 
-#[test]
-fn test() {
-    let result = crate::parsers::module::parse("module A do end");
-    println!("{:?}", result);
-    todo!("This is not a real test! Something wrong with PartialEq for dyn traits");
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn test() {
+        let result = crate::parsers::module::parse("module A do end");
+        println!("{:?}", result);
+        todo!("This is not a real test! Something wrong with PartialEq for dyn traits");
+    }
 }

@@ -7,7 +7,7 @@
 use crate::symbols::complete;
 use crate::symbols::raw;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Number {
     pub body: f64,
 }

@@ -13,12 +13,14 @@ pub struct Atom {
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Atom> {
-    let (input, body) = nom::combinator::all_consuming(nom::sequence::preceded(
+    let (input, body) = nom::sequence::preceded(
         nom::bytes::complete::tag(raw::COLON),
         parsers::ident::parse,
-    ))(input)?;
+    )(input)?;
 
-    Ok((input, Atom { body: body.body }))
+    let body = body.body;
+
+    Ok((input, Atom { body }))
 }
 
 #[cfg(test)]

@@ -16,20 +16,36 @@ pub struct List {
 pub enum ListBody {
     Atom(parsers::atom::Atom),
     Bool(parsers::bool::Bool),
+    Number(parsers::number::Number),
+    String(parsers::string::String),
 }
 
-pub fn sequence(input: &str) -> nom::IResult<&str, Vec<ListBody>> {
-    let (input, result) = nom::multi::separated_list0(
-        nom::bytes::complete::tag(raw::COMMA),
-        parsers::atom::parse,
-    )(input)?;
+pub fn get_atom(input: &str) -> nom::IResult<&str, ListBody> {
+    let (input, result) = parsers::atom::parse(input)?;
+    Ok((input, ListBody::Atom(result)))
+}
 
-    let result = result.iter().map(|x| ListBody::Atom(x.clone())).collect();
+pub fn get_bool(input: &str) -> nom::IResult<&str, ListBody> {
+    let (input, result) = parsers::bool::parse(input)?;
+    Ok((input, ListBody::Bool(result)))
+}
 
+pub fn get_string(input: &str) -> nom::IResult<&str, ListBody> {
+    let (input, result) = parsers::string::parse(input)?;
+    Ok((input, ListBody::String(result)))
+}
+
+pub fn get_number(input: &str) -> nom::IResult<&str, ListBody> {
+    let (input, result) = parsers::number::parse(input)?;
+    Ok((input, ListBody::Number(result)))
+}
+
+pub fn get_body(input: &str) -> nom::IResult<&str, ListBody> {
+    let (input, result) = nom::branch::alt((get_bool, get_atom, get_number, get_string))(input)?;
     Ok((input, result))
 }
 
-pub fn parse(input: &str) -> nom::IResult<&str, Vec<parsers::bool::Bool>> {
+pub fn parse(input: &str) -> nom::IResult<&str, List> {
     let (input, result) = nom::sequence::delimited(
         nom::bytes::complete::tag(raw::bracket::LEFT),
         nom::multi::separated_list0(
@@ -40,32 +56,114 @@ pub fn parse(input: &str) -> nom::IResult<&str, Vec<parsers::bool::Bool>> {
             ),
             nom::sequence::delimited(
                 nom::character::complete::multispace0,
-                parsers::bool::parse,
+                get_body,
                 nom::character::complete::multispace0,
             ),
         ),
         nom::bytes::complete::tag(raw::bracket::RIGHT),
     )(input)?;
 
-    Ok((input, result))
+    Ok((input, List { body: result }))
 }
 
 #[cfg(test)]
 mod tests {
+    use crate::parsers::atom;
+    use crate::parsers::bool;
+    use crate::parsers::list;
+    use crate::parsers::number;
+    use crate::parsers::string;
 
     #[test]
-    fn test() {
-        let result = crate::parsers::list::sequence(":ok,:another");
-        match result {
-            Ok((_, list)) => {
-                println!("{:?}", list);
-                // assert_eq!(list, crate::parsers::list::List { body: vec![] })
-            }
+    fn test_get_atom() {
+        let result = list::get_atom(":ok");
+        let result = match result {
+            Ok((_, product)) => product,
             Err(e) => match e {
-                nom::Err::Incomplete(i) => assert!(false, "{:#?}", i),
-                nom::Err::Error(i) => assert!(false, "{}", i),
-                nom::Err::Failure(i) => assert!(false, "{}", i),
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
             },
-        }
+        };
+
+        let expected = list::ListBody::Atom(atom::Atom {
+            body: "ok".to_string(),
+        });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_get_number() {
+        let result = list::get_number("3.14");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::ListBody::Number(number::Number { body: 3.14 as f64 });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_get_string() {
+        let result = list::get_string("\"Hello World\"");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::ListBody::String(string::String {
+            body: "Hello World".to_string(),
+        });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_get_bool() {
+        let result = list::get_bool("true");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::ListBody::Bool(bool::Bool { body: true });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_get_body() {
+        let result = list::parse("true");
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::List {
+            body: vec![list::ListBody::Atom(atom::Atom {
+                body: "ok".to_string(),
+            })],
+        };
+
+        assert_eq!(expected, result)
     }
 }
