@@ -187,7 +187,7 @@ mod tests {
 
     #[test]
     fn test_get_tuple() {
-        let result = tuple::parse("{{{}}}");
+        let result = list::parse("[{{}}]");
 
         let result = match result {
             Ok((_, product)) => product,
@@ -198,7 +198,7 @@ mod tests {
             },
         };
 
-        let expected = tuple::Tuple {
+        let expected = list::List {
             body: vec![list::IterableBody::Tuple(tuple::Tuple {
                 body: vec![list::IterableBody::Tuple(tuple::Tuple { body: vec![] })],
             })],
