@@ -4,8 +4,6 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
-use core::panic;
-
 use crate::parsers;
 use crate::symbols::raw;
 
@@ -20,6 +18,10 @@ pub enum ListBody {
     Bool(parsers::bool::Bool),
     Number(parsers::number::Number),
     String(parsers::string::String),
+    List(parsers::list::List),
+    // TODO
+    // Tuple(parsers::tuple::Tuple),
+    // Map(parsers::map::Map),
 }
 
 pub fn get_atom(input: &str) -> nom::IResult<&str, ListBody> {
@@ -42,8 +44,14 @@ pub fn get_number(input: &str) -> nom::IResult<&str, ListBody> {
     Ok((input, ListBody::Number(result)))
 }
 
+pub fn get_list(input: &str) -> nom::IResult<&str, ListBody> {
+    let (input, result) = parsers::list::parse(input)?;
+    Ok((input, ListBody::List(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, ListBody> {
-    let (input, result) = nom::branch::alt((get_bool, get_atom, get_number, get_string))(input)?;
+    let (input, result) =
+        nom::branch::alt((get_bool, get_atom, get_number, get_string, get_list))(input)?;
     Ok((input, result))
 }
 
@@ -144,6 +152,28 @@ mod tests {
         };
 
         let expected = list::ListBody::Bool(bool::Bool { body: true });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_get_list() {
+        let result = list::parse("[[[]]]");
+
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::List {
+            body: vec![list::ListBody::List(list::List {
+                body: vec![list::ListBody::List(list::List { body: vec![] })],
+            })],
+        };
 
         assert_eq!(expected, result)
     }
