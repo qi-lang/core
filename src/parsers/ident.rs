@@ -13,7 +13,7 @@ pub struct Ident {
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Ident> {
-    let (input, result) = nom::combinator::all_consuming(nom::sequence::tuple((
+    let (input, result) = nom::sequence::tuple((
         nom::branch::alt((
             nom::bytes::complete::tag(raw::UNDERSCORE),
             character::alpha_numeric,
@@ -22,7 +22,7 @@ pub fn parse(input: &str) -> nom::IResult<&str, Ident> {
             nom::bytes::complete::tag(raw::UNDERSCORE),
             character::alpha_numeric,
         ))),
-    )))(input)?;
+    ))(input)?;
 
     let body = format!("{}{}", result.0, result.1.join(""));
     Ok((input, Ident { body }))

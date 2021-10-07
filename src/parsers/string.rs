@@ -21,11 +21,11 @@ pub fn inner(input: &str) -> nom::IResult<&str, Vec<&str>> {
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, String> {
-    let (input, result) = nom::combinator::all_consuming(nom::sequence::delimited(
+    let (input, result) = nom::sequence::delimited(
         nom::bytes::complete::tag(raw::quotation::DOUBLE),
         inner,
         nom::bytes::complete::tag(raw::quotation::DOUBLE),
-    ))(input)?;
+    )(input)?;
 
     Ok((
         input,

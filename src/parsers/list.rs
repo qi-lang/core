@@ -4,6 +4,8 @@
  * License text available at https://opensource.org/licenses/MIT
  */
 
+use core::panic;
+
 use crate::parsers;
 use crate::symbols::raw;
 
@@ -62,12 +64,12 @@ pub fn parse(input: &str) -> nom::IResult<&str, List> {
         ),
         nom::bytes::complete::tag(raw::bracket::RIGHT),
     )(input)?;
-
     Ok((input, List { body: result }))
 }
 
 #[cfg(test)]
 mod tests {
+
     use crate::parsers::atom;
     use crate::parsers::bool;
     use crate::parsers::list;
@@ -148,7 +150,28 @@ mod tests {
 
     #[test]
     fn test_get_body() {
-        let result = list::parse("true");
+        let result = list::get_body(":atom");
+
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::ListBody::Atom(atom::Atom {
+            body: "atom".to_string(),
+        });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_delimited() {
+        let result = list::parse("[:ok, true, 3.1415, \"\"]");
+
         let result = match result {
             Ok((_, product)) => product,
             Err(e) => match e {
@@ -159,9 +182,18 @@ mod tests {
         };
 
         let expected = list::List {
-            body: vec![list::ListBody::Atom(atom::Atom {
-                body: "ok".to_string(),
-            })],
+            body: vec![
+                list::ListBody::Atom(atom::Atom {
+                    body: "ok".to_string(),
+                }),
+                list::ListBody::Bool(bool::Bool { body: true }),
+                list::ListBody::Number(number::Number {
+                    body: 3.1415 as f64,
+                }),
+                list::ListBody::String(string::String {
+                    body: "".to_string(),
+                }),
+            ],
         };
 
         assert_eq!(expected, result)
