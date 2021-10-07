@@ -21,6 +21,7 @@ pub enum IterableBody {
     List(parsers::list::List),
     // TODO
     Tuple(parsers::tuple::Tuple),
+    Ident(parsers::ident::Ident),
     // Map(parsers::map::Map),
 }
 
@@ -54,9 +55,14 @@ pub fn get_tuple(input: &str) -> nom::IResult<&str, IterableBody> {
     Ok((input, IterableBody::Tuple(result)))
 }
 
+pub fn get_ident(input: &str) -> nom::IResult<&str, IterableBody> {
+    let (input, result) = parsers::ident::parse(input)?;
+    Ok((input, IterableBody::Ident(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = nom::branch::alt((
-        get_bool, get_atom, get_number, get_string, get_list, get_tuple,
+        get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident,
     ))(input)?;
     Ok((input, result))
 }
@@ -86,6 +92,7 @@ mod tests {
 
     use crate::parsers::atom;
     use crate::parsers::bool;
+    use crate::parsers::ident;
     use crate::parsers::list;
     use crate::parsers::number;
     use crate::parsers::string;
@@ -208,6 +215,26 @@ mod tests {
     }
 
     #[test]
+    fn test_get_ident() {
+        let result = list::get_ident("hello");
+
+        let result = match result {
+            Ok((_, product)) => product,
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{}", i),
+                nom::Err::Failure(i) => panic!("{}", i),
+            },
+        };
+
+        let expected = list::IterableBody::Ident(ident::Ident {
+            body: "hello".to_string(),
+        });
+
+        assert_eq!(expected, result)
+    }
+
+    #[test]
     fn test_get_body() {
         let result = list::get_body(":atom");
 
@@ -229,7 +256,7 @@ mod tests {
 
     #[test]
     fn test_delimited() {
-        let result = list::parse("[:ok, true, 3.1415, \"\"]");
+        let result = list::parse("[:ok, true, 3.1415, \"\", hello]");
 
         let result = match result {
             Ok((_, product)) => product,
@@ -251,6 +278,9 @@ mod tests {
                 }),
                 list::IterableBody::String(string::String {
                     body: "".to_string(),
+                }),
+                list::IterableBody::Ident(ident::Ident {
+                    body: "hello".to_string(),
                 }),
             ],
         };
