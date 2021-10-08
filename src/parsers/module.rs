@@ -10,7 +10,7 @@ use crate::symbols::raw;
 #[derive(Debug, PartialEq)]
 pub struct Module {
     ident: parsers::ident::Ident,
-    body: Option<ModuleBody>,
+    body: Option<Vec<ModuleBody>>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -46,7 +46,7 @@ pub fn parse(input: &str) -> nom::IResult<&str, Module> {
             )),
             nom::sequence::terminated(
                 nom::combinator::opt(nom::sequence::terminated(
-                    get_body,
+                    nom::multi::separated_list1(nom::character::complete::multispace1, get_body),
                     nom::character::complete::multispace1,
                 )),
                 nom::bytes::complete::tag(raw::END),
