@@ -15,7 +15,7 @@ pub struct Module {
 
 #[derive(Debug, PartialEq)]
 pub enum ModuleBody {
-    // Module(parsers::module::Module),
+    Module(parsers::module::Module),
     Definition(parsers::definition::Definition),
 }
 
@@ -24,8 +24,13 @@ pub fn get_definition(input: &str) -> nom::IResult<&str, ModuleBody> {
     Ok((input, ModuleBody::Definition(result)))
 }
 
+pub fn get_module(input: &str) -> nom::IResult<&str, ModuleBody> {
+    let (input, result) = parsers::module::parse(input)?;
+    Ok((input, ModuleBody::Module(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, ModuleBody> {
-    let (input, result) = nom::branch::alt((get_definition, get_definition))(input)?;
+    let (input, result) = nom::branch::alt((get_module, get_definition))(input)?;
     Ok((input, result))
 }
 
@@ -68,8 +73,6 @@ mod tests {
 
     #[test]
     fn test() {
-        let result = crate::parsers::module::parse("module A do end");
-        println!("{:?}", result);
-        todo!("This is not a real test! Something wrong with PartialEq for dyn traits");
+        todo!()
     }
 }
