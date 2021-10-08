@@ -29,6 +29,11 @@ pub enum ParameterBody {
     // Lambda(parsers::map::Map),
 }
 
+#[derive(Debug, PartialEq)]
+pub struct Parameters {
+    pub body: Vec<Parameter>,
+}
+
 pub fn get_atom(input: &str) -> nom::IResult<&str, ParameterBody> {
     let (input, result) = parsers::atom::parse(input)?;
     Ok((input, ParameterBody::Atom(result)))
@@ -78,23 +83,25 @@ pub fn get_body(input: &str) -> nom::IResult<&str, ParameterBody> {
 }
 
 pub fn get_parameter(input: &str) -> nom::IResult<&str, Parameter> {
-    let (input, result) = nom::sequence::separated_pair(
+    let (input, result) = nom::sequence::tuple((
         nom::sequence::delimited(
             nom::character::complete::multispace0,
             parsers::ident::parse,
             nom::character::complete::multispace0,
         ),
-        nom::sequence::delimited(
-            nom::character::complete::multispace0,
-            nom::bytes::complete::tag(raw::back_slash::DOUBLE),
-            nom::character::complete::multispace0,
-        ),
-        nom::sequence::delimited(
-            nom::character::complete::multispace0,
-            nom::combinator::opt(get_body),
-            nom::character::complete::multispace0,
-        ),
-    )(input)?;
+        nom::combinator::opt(nom::sequence::preceded(
+            nom::sequence::delimited(
+                nom::character::complete::multispace0,
+                nom::bytes::complete::tag(raw::back_slash::DOUBLE),
+                nom::character::complete::multispace0,
+            ),
+            nom::sequence::delimited(
+                nom::character::complete::multispace0,
+                get_body,
+                nom::character::complete::multispace0,
+            ),
+        )),
+    ))(input)?;
 
     Ok((
         input,
@@ -105,8 +112,21 @@ pub fn get_parameter(input: &str) -> nom::IResult<&str, Parameter> {
     ))
 }
 
-pub fn parse(input: &str) -> nom::IResult<&str, Vec<Parameter>> {
-    unimplemented!()
+pub fn parse(input: &str) -> nom::IResult<&str, Parameters> {
+    let (input, result) = nom::multi::separated_list0(
+        nom::sequence::delimited(
+            nom::character::complete::multispace0,
+            nom::bytes::complete::tag(raw::COMMA),
+            nom::character::complete::multispace0,
+        ),
+        nom::sequence::delimited(
+            nom::character::complete::multispace0,
+            get_parameter,
+            nom::character::complete::multispace0,
+        ),
+    )(input)?;
+
+    Ok((input, Parameters { body: result }))
 }
 
 #[cfg(test)]
