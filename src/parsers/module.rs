@@ -10,36 +10,55 @@ use crate::symbols::raw;
 #[derive(Debug, PartialEq)]
 pub struct Module {
     ident: parsers::ident::Ident,
-    body: Vec<ModuleBody>,
+    body: Option<ModuleBody>,
 }
 
 #[derive(Debug, PartialEq)]
 pub enum ModuleBody {
-    Module(parsers::module::Module),
-    // todo: Function(parsers::function::Function),
+    // Module(parsers::module::Module),
+    Definition(parsers::definition::Definition),
+}
+
+pub fn get_definition(input: &str) -> nom::IResult<&str, ModuleBody> {
+    let (input, result) = parsers::definition::parse(input)?;
+    Ok((input, ModuleBody::Definition(result)))
+}
+
+pub fn get_body(input: &str) -> nom::IResult<&str, ModuleBody> {
+    let (input, result) = nom::branch::alt((get_definition, get_definition))(input)?;
+    Ok((input, result))
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Module> {
-    let (input, result) = nom::sequence::tuple((
-        nom::bytes::complete::tag(raw::MODULE),
-        nom::sequence::tuple((
-            nom::character::complete::multispace1,
-            parsers::ident::parse,
-            nom::character::complete::multispace1,
-        )),
-        nom::bytes::complete::tag(raw::DO),
-        nom::character::complete::multispace1,
-        nom::bytes::complete::tag(raw::END),
-    ))(input)?;
-
-    // TODO:
-    let body = vec![];
+    let (input, result) = nom::sequence::pair(
+        nom::sequence::preceded(
+            nom::bytes::complete::tag(raw::MODULE),
+            nom::sequence::delimited(
+                nom::character::complete::multispace1,
+                parsers::ident::parse,
+                nom::character::complete::multispace1,
+            ),
+        ),
+        nom::sequence::preceded(
+            nom::sequence::tuple((
+                nom::bytes::complete::tag(raw::DO),
+                nom::character::complete::multispace1,
+            )),
+            nom::sequence::terminated(
+                nom::combinator::opt(nom::sequence::terminated(
+                    get_body,
+                    nom::character::complete::multispace1,
+                )),
+                nom::bytes::complete::tag(raw::END),
+            ),
+        ),
+    )(input)?;
 
     Ok((
         input,
         Module {
-            ident: (result.1).1,
-            body,
+            ident: result.0,
+            body: result.1,
         },
     ))
 }

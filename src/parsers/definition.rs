@@ -17,19 +17,18 @@ pub struct Definition {
 #[derive(Debug, PartialEq)]
 pub enum DefinitionBody {
     // TODO
-// Assign(parsers::assign::Assign)
-// Definition(Box<parsers::definition::Definition>),
+    // Assign(parsers::assign::Assign)
+    Definition(Box<parsers::definition::Definition>),
 }
 
 // TODO
-// pub fn get_definition(input: &str) -> nom::IResult<&str, DefinitionBody> {
-//     let (input, result) = parsers::definition::parse(input)?;
-//     Ok((input, DefinitionBody::Definition(Box::new(result))))
-// }
+pub fn get_definition(input: &str) -> nom::IResult<&str, DefinitionBody> {
+    let (input, result) = parsers::definition::parse(input)?;
+    Ok((input, DefinitionBody::Definition(Box::new(result))))
+}
 
 pub fn get_body(input: &str) -> nom::IResult<&str, DefinitionBody> {
-    // nom::branch::alt((get_definition, get_definition))(input)
-    todo!()
+    nom::branch::alt((get_definition, get_definition))(input)
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Definition> {

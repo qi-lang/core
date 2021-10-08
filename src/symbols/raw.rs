@@ -77,7 +77,6 @@ pub mod number {
     pub const NINE: &'static str = "9";
 }
 
-
 pub mod arrow {
     pub mod thin {
         pub const LEFT: &'static str = "<-";
@@ -122,7 +121,7 @@ pub const FN: &'static str = "fn";
 
 pub const FOR: &'static str = "for";
 
-pub const MODULE: &'static str = "module";
+pub const MODULE: &'static str = "mod";
 
 pub const PERCENT: &'static str = "%";
 
