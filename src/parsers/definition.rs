@@ -18,38 +18,35 @@ pub struct Definition {
 pub enum DefinitionBody {
     // TODO
 // Assign(parsers::assign::Assign)
-// Definition(parsers::definition::Definition)
+// Definition(Box<parsers::definition::Definition>),
 }
 
-// ident()
-pub fn get_definition_ident(
-    input: &str,
-) -> nom::IResult<
-    &str,
-    (
-        parsers::ident::Ident,
-        Option<parsers::parameter::Parameters>,
-    ),
-> {
-    let (input, result) = nom::sequence::pair(
-        parsers::ident::parse,
-        nom::combinator::opt(nom::sequence::delimited(
-            nom::bytes::complete::tag(raw::parenthesis::LEFT),
-            parsers::parameter::parse,
-            nom::bytes::complete::tag(raw::parenthesis::RIGHT),
-        )),
-    )(input)?;
+// TODO
+// pub fn get_definition(input: &str) -> nom::IResult<&str, DefinitionBody> {
+//     let (input, result) = parsers::definition::parse(input)?;
+//     Ok((input, DefinitionBody::Definition(Box::new(result))))
+// }
 
-    Ok((input, result))
+pub fn get_body(input: &str) -> nom::IResult<&str, DefinitionBody> {
+    // nom::branch::alt((get_definition, get_definition))(input)
+    todo!()
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Definition> {
     let (input, result) = nom::sequence::tuple((
         nom::sequence::preceded(
             nom::bytes::complete::tag(raw::DEF),
+            // func_name + opt ()
             nom::sequence::delimited(
                 nom::character::complete::multispace1,
-                get_definition_ident,
+                nom::sequence::pair(
+                    parsers::ident::parse,
+                    nom::combinator::opt(nom::sequence::delimited(
+                        nom::bytes::complete::tag(raw::parenthesis::LEFT),
+                        parsers::parameter::parse,
+                        nom::bytes::complete::tag(raw::parenthesis::RIGHT),
+                    )),
+                ),
                 nom::character::complete::multispace1,
             ),
         ),
@@ -58,7 +55,7 @@ pub fn parse(input: &str) -> nom::IResult<&str, Definition> {
             nom::sequence::preceded(
                 nom::character::complete::multispace1,
                 nom::combinator::opt(nom::sequence::terminated(
-                    parsers::bool::parse,
+                    get_body,
                     nom::character::complete::multispace1,
                 )),
             ),
@@ -71,7 +68,7 @@ pub fn parse(input: &str) -> nom::IResult<&str, Definition> {
         Definition {
             ident: (result.0).0,
             params: (result.0).1,
-            body: None,
+            body: result.1,
         },
     ))
 }
