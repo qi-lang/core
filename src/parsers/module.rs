@@ -9,8 +9,8 @@ use crate::symbols::raw;
 
 #[derive(Debug, PartialEq)]
 pub struct Module {
-    ident: parsers::ident::Ident,
-    body: Option<Vec<ModuleBody>>,
+    pub ident: parsers::ident::Ident,
+    pub body: Option<Vec<ModuleBody>>,
 }
 
 #[derive(Debug, PartialEq)]

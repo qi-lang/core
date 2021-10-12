@@ -1,15 +1,59 @@
 /*
  * Copyright Qi Lang. 2021 All Rights Reserved.
- * This file is licensed under the MIT License.
+ * This file is licen ident: todo!(), body: todo!()  ident: todo!(), body: todo!()  ident: todo!(), body: todo!() sed under the MIT License.
  * License text available at https://opensource.org/licenses/MIT
  */
 
+
+use crate::parsers;
+
+#[derive(Debug, PartialEq)]
 pub struct Root {
-    body: Option<Vec<RootBody>>,
+    pub body: Option<Vec<RootBody>>,
 }
 
-pub enum RootBody {}
+#[derive(Debug, PartialEq)]
+pub enum RootBody {
+    Module(parsers::module::Module),
+    Definition(parsers::definition::Definition),
+}
 
 pub fn parse(input: &str) -> nom::IResult<&str, Root> {
     unimplemented!()
+}
+
+#[cfg(test)]
+mod tests {
+    use core::panic;
+
+    use crate::parsers::root;
+    use crate::parsers::module;
+    use crate::parsers::ident;
+    use crate::parsers::definition;
+
+    #[test]
+    fn test() {
+        let input = "mod A do end";
+        let result = root::parse(input);
+        
+        match result {
+            Ok((_, product)) => assert_eq!(product, root::Root {
+                body: Some(
+                    vec![
+                        root::RootBody::Module(module::Module {
+                            ident: ident::Ident { 
+                                body: "A".to_string()
+                            },
+                            body: None,
+                        })
+                    ]
+                )
+            }),
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{:?}", i),
+                nom::Err::Failure(i) => panic!("{:?}", i),
+            },
+        }
+    }
 }
