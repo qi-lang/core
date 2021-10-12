@@ -32,7 +32,7 @@ mod tests {
     use crate::parsers::definition;
 
     #[test]
-    fn test() {
+    fn test_root_has_module() {
         let input = "mod A do end";
         let result = root::parse(input);
         
@@ -44,6 +44,33 @@ mod tests {
                             ident: ident::Ident { 
                                 body: "A".to_string()
                             },
+                            body: None,
+                        })
+                    ]
+                )
+            }),
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{:?}", i),
+                nom::Err::Failure(i) => panic!("{:?}", i),
+            },
+        }
+    }
+
+    #[test]
+    fn test_root_has_definition() {
+        let input = "def hello do end";
+        let result = root::parse(input);
+        
+        match result {
+            Ok((_, product)) => assert_eq!(product, root::Root {
+                body: Some(
+                    vec![
+                        root::RootBody::Definition(definition::Definition {
+                            ident: ident::Ident { 
+                                body: "hello".to_string()
+                            },
+                            params: None,
                             body: None,
                         })
                     ]

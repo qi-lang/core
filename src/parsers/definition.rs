@@ -9,9 +9,9 @@ use crate::symbols::raw;
 
 #[derive(Debug, PartialEq)]
 pub struct Definition {
-    ident: parsers::ident::Ident,
-    params: Option<parsers::parameter::Parameters>,
-    body: Option<DefinitionBody>,
+    pub ident: parsers::ident::Ident,
+    pub params: Option<parsers::parameter::Parameters>,
+    pub body: Option<DefinitionBody>,
 }
 
 #[derive(Debug, PartialEq)]
