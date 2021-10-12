@@ -17,8 +17,31 @@ pub enum RootBody {
     Definition(parsers::definition::Definition),
 }
 
+pub fn get_module(input: &str) -> nom::IResult<&str, RootBody> {
+    let (input, result) = parsers::module::parse(input)?;
+    Ok((input, RootBody::Module(result)))
+}
+pub fn get_definition(input: &str) -> nom::IResult<&str, RootBody> {
+    let (input, result) = parsers::definition::parse(input)?;
+    Ok((input, RootBody::Definition(result)))
+}
+
+pub fn get_body(input: &str) -> nom::IResult<&str, RootBody> {
+    let (input, result) = nom::branch::alt((get_module, get_definition))(input)?;
+    Ok((input, result))
+}
+
 pub fn parse(input: &str) -> nom::IResult<&str, Root> {
-    unimplemented!()
+    let (input, result) = nom::sequence::terminated(
+        nom::sequence::delimited(
+            nom::character::complete::multispace0,
+            nom::combinator::opt(nom::multi::many1(get_body)),
+            nom::character::complete::multispace0,
+        ),
+        nom::combinator::eof,
+    )(input)?;
+
+    Ok((input, Root { body: result }))
 }
 
 #[cfg(test)]
