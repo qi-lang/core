@@ -80,4 +80,30 @@ mod tests {
             },
         }
     }
+
+    #[test]
+    fn test_can_have_pre_post_whitespace() {
+        let input = "       def hello do end        ";
+        let result = root::parse(input);
+
+        match result {
+            Ok((_, product)) => assert_eq!(
+                product,
+                root::Root {
+                    body: Some(vec![root::RootBody::Definition(definition::Definition {
+                        ident: ident::Ident {
+                            body: "hello".to_string()
+                        },
+                        params: None,
+                        body: None,
+                    })])
+                }
+            ),
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{:?}", i),
+                nom::Err::Failure(i) => panic!("{:?}", i),
+            },
+        }
+    }
 }
