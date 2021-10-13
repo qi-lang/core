@@ -32,21 +32,24 @@ pub fn get_body(input: &str) -> nom::IResult<&str, RootBody> {
 }
 
 pub fn parse(input: &str) -> nom::IResult<&str, Root> {
-    let (input, result) = nom::sequence::terminated(
+    let (input, result) = nom::combinator::all_consuming(nom::sequence::terminated(
         nom::sequence::delimited(
             nom::character::complete::multispace0,
-            nom::combinator::opt(nom::multi::many1(get_body)),
+            nom::combinator::opt(nom::multi::many1(nom::sequence::delimited(
+                nom::character::complete::multispace0,
+                get_body,
+                nom::character::complete::multispace0,
+            ))),
             nom::character::complete::multispace0,
         ),
         nom::combinator::eof,
-    )(input)?;
+    ))(input)?;
 
     Ok((input, Root { body: result }))
 }
 
 #[cfg(test)]
 mod tests {
-    use core::panic;
 
     use crate::parsers::definition;
     use crate::parsers::ident;
@@ -120,6 +123,39 @@ mod tests {
                         params: None,
                         body: None,
                     })])
+                }
+            ),
+            Err(e) => match e {
+                nom::Err::Incomplete(i) => panic!("{:?}", i),
+                nom::Err::Error(i) => panic!("{:?}", i),
+                nom::Err::Failure(i) => panic!("{:?}", i),
+            },
+        }
+    }
+    #[test]
+    fn test_can_have_many() {
+        let input = "def hello do end mod A do end";
+        let result = root::parse(input);
+
+        match result {
+            Ok((_, product)) => assert_eq!(
+                product,
+                root::Root {
+                    body: Some(vec![
+                        root::RootBody::Definition(definition::Definition {
+                            ident: ident::Ident {
+                                body: "hello".to_string()
+                            },
+                            params: None,
+                            body: None,
+                        }),
+                        root::RootBody::Module(module::Module {
+                            ident: ident::Ident {
+                                body: "A".to_string()
+                            },
+                            body: None,
+                        })
+                    ])
                 }
             ),
             Err(e) => match e {
