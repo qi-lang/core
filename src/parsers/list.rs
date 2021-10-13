@@ -21,9 +21,8 @@ pub enum IterableBody {
     List(parsers::list::List),
     Tuple(parsers::tuple::Tuple),
     Ident(parsers::ident::Ident),
-    // TODO
     Map(parsers::map::Map),
-    // Lambda(parsers::map::Map),
+    Lambda(parsers::map::Map),
 }
 
 pub fn get_atom(input: &str) -> nom::IResult<&str, IterableBody> {
@@ -66,9 +65,15 @@ pub fn get_map(input: &str) -> nom::IResult<&str, IterableBody> {
     Ok((input, IterableBody::Map(result)))
 }
 
+pub fn get_lambda(input: &str) -> nom::IResult<&str, IterableBody> {
+    let (input, result) = parsers::map::parse(input)?;
+    Ok((input, IterableBody::Map(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, IterableBody> {
     let (input, result) = nom::branch::alt((
         get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident, get_map,
+        get_lambda,
     ))(input)?;
     Ok((input, result))
 }

@@ -115,7 +115,7 @@ pub const COMMA: &'static str = ",";
 
 pub const DEF: &'static str = "def";
 
-pub const EQUAL: &'static str = ": &'static str =";
+pub const EQUAL: &'static str = "=";
 
 pub const FN: &'static str = "fn";
 
