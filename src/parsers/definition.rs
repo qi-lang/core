@@ -17,7 +17,6 @@ pub struct Definition {
 #[derive(Debug, PartialEq)]
 pub enum DefinitionBody {
     Assign(parsers::assign::Assign),
-    Definition(Box<parsers::definition::Definition>),
 }
 
 pub fn get_assign(input: &str) -> nom::IResult<&str, DefinitionBody> {
