@@ -83,7 +83,11 @@ pub fn parse(input: &str) -> nom::IResult<&str, Parameter> {
     let (input, result) = nom::sequence::tuple((
         parsers::ident::parse,
         nom::combinator::opt(nom::sequence::preceded(
-            nom::bytes::complete::tag(raw::back_slash::DOUBLE),
+            nom::sequence::delimited(
+                nom::character::complete::multispace0,
+                nom::bytes::complete::tag(raw::back_slash::DOUBLE),
+                nom::character::complete::multispace0,
+            ),
             get_body,
         )),
     ))(input)?;
@@ -119,7 +123,7 @@ mod tests {
 
     #[test]
     fn test_with_default() {
-        let input = "a\\\\2";
+        let input = "a\\\\true";
         let result = parsers::parameters::single::parse(input);
 
         assert_eq!(
@@ -140,7 +144,7 @@ mod tests {
 
     #[test]
     fn test_whitespace() {
-        let input = "a \\\\ 2";
+        let input = "a \\\\ true";
         let result = parsers::parameters::single::parse(input);
 
         assert_eq!(
