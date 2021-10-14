@@ -17,7 +17,8 @@ pub mod tuple;
 
 pub mod assign;
 pub mod definition;
+pub mod lambda;
 pub mod module;
-pub mod parameter;
+pub mod parameters;
 
-pub mod root;
+// pub mod root;

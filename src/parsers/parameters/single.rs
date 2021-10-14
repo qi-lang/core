@@ -7,12 +7,10 @@
 use crate::parsers;
 use crate::symbols::raw;
 
-// a, b \\ 3.1415
-
 #[derive(Debug, PartialEq)]
 pub struct Parameter {
-    pub ident: String,
-    pub default: Option<ParameterBody>,
+    pub ident: parsers::ident::Ident,
+    pub body: Option<ParameterBody>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -23,15 +21,9 @@ pub enum ParameterBody {
     String(parsers::string::String),
     List(parsers::list::List),
     Tuple(parsers::tuple::Tuple),
-    Ident(parsers::ident::Ident),
-    // TODO
     Map(parsers::map::Map),
-    // Lambda(parsers::map::Map),
-}
-
-#[derive(Debug, PartialEq)]
-pub struct Parameters {
-    pub body: Vec<Parameter>,
+    Ident(parsers::ident::Ident),
+    Lambda(parsers::lambda::Lambda),
 }
 
 pub fn get_atom(input: &str) -> nom::IResult<&str, ParameterBody> {
@@ -74,66 +66,96 @@ pub fn get_map(input: &str) -> nom::IResult<&str, ParameterBody> {
     Ok((input, ParameterBody::Map(result)))
 }
 
+pub fn get_lambda(input: &str) -> nom::IResult<&str, ParameterBody> {
+    let (input, result) = parsers::map::parse(input)?;
+    Ok((input, ParameterBody::Map(result)))
+}
+
 pub fn get_body(input: &str) -> nom::IResult<&str, ParameterBody> {
     let (input, result) = nom::branch::alt((
         get_bool, get_atom, get_number, get_string, get_list, get_tuple, get_ident, get_map,
+        get_lambda,
     ))(input)?;
-
     Ok((input, result))
 }
 
-pub fn get_parameter(input: &str) -> nom::IResult<&str, Parameter> {
+pub fn parse(input: &str) -> nom::IResult<&str, Parameter> {
     let (input, result) = nom::sequence::tuple((
-        nom::sequence::delimited(
-            nom::character::complete::multispace0,
-            parsers::ident::parse,
-            nom::character::complete::multispace0,
-        ),
+        parsers::ident::parse,
         nom::combinator::opt(nom::sequence::preceded(
-            nom::sequence::delimited(
-                nom::character::complete::multispace0,
-                nom::bytes::complete::tag(raw::back_slash::DOUBLE),
-                nom::character::complete::multispace0,
-            ),
-            nom::sequence::delimited(
-                nom::character::complete::multispace0,
-                get_body,
-                nom::character::complete::multispace0,
-            ),
+            nom::bytes::complete::tag(raw::back_slash::DOUBLE),
+            get_body,
         )),
     ))(input)?;
 
-    Ok((
-        input,
-        Parameter {
-            ident: result.0.body,
-            default: result.1,
-        },
-    ))
-}
+    let (ident, body) = result;
 
-pub fn parse(input: &str) -> nom::IResult<&str, Parameters> {
-    let (input, result) = nom::multi::separated_list0(
-        nom::sequence::delimited(
-            nom::character::complete::multispace0,
-            nom::bytes::complete::tag(raw::COMMA),
-            nom::character::complete::multispace0,
-        ),
-        nom::sequence::delimited(
-            nom::character::complete::multispace0,
-            get_parameter,
-            nom::character::complete::multispace0,
-        ),
-    )(input)?;
-
-    Ok((input, Parameters { body: result }))
+    Ok((input, Parameter { ident, body }))
 }
 
 #[cfg(test)]
 mod tests {
 
+    use crate::parsers;
+
     #[test]
-    fn test() {
-        todo!()
+    fn test_with_no_default() {
+        let input = "a";
+        let result = parsers::parameters::single::parse(input);
+
+        assert_eq!(
+            result,
+            Ok((
+                "",
+                parsers::parameters::single::Parameter {
+                    ident: parsers::ident::Ident {
+                        body: "a".to_string()
+                    },
+                    body: None,
+                }
+            ))
+        )
+    }
+
+    #[test]
+    fn test_with_default() {
+        let input = "a\\\\2";
+        let result = parsers::parameters::single::parse(input);
+
+        assert_eq!(
+            result,
+            Ok((
+                "",
+                parsers::parameters::single::Parameter {
+                    ident: parsers::ident::Ident {
+                        body: "a".to_string()
+                    },
+                    body: Some(parsers::parameters::single::ParameterBody::Bool(
+                        parsers::bool::Bool { body: true }
+                    )),
+                }
+            ))
+        )
+    }
+
+    #[test]
+    fn test_whitespace() {
+        let input = "a \\\\ 2";
+        let result = parsers::parameters::single::parse(input);
+
+        assert_eq!(
+            result,
+            Ok((
+                "",
+                parsers::parameters::single::Parameter {
+                    ident: parsers::ident::Ident {
+                        body: "a".to_string()
+                    },
+                    body: Some(parsers::parameters::single::ParameterBody::Bool(
+                        parsers::bool::Bool { body: true }
+                    )),
+                }
+            ))
+        )
     }
 }

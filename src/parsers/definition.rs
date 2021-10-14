@@ -1,7 +1,7 @@
 /*
  * Copyright Qi Lang. 2021 All Rights Reserved.
- * Th ident: todo!(), params: todo!(), body: todo!() is file is licensed under the MIT License.
- * License text available at https://opensource. ident: todo!(), body: todo!() org/licenses/MIT
+ * This file is licensed under the MIT License.
+ * License text available at https://opensource.org/licenses/MIT
  */
 
 use crate::parsers;
@@ -10,7 +10,7 @@ use crate::symbols::raw;
 #[derive(Debug, PartialEq)]
 pub struct Definition {
     pub ident: parsers::ident::Ident,
-    pub params: Option<parsers::parameter::Parameters>,
+    pub params: Option<parsers::parameters::multi::Parameters>,
     pub body: Option<Vec<DefinitionBody>>,
 }
 
@@ -41,7 +41,7 @@ pub fn parse(input: &str) -> nom::IResult<&str, Definition> {
                     parsers::ident::parse,
                     nom::combinator::opt(nom::sequence::delimited(
                         nom::bytes::complete::tag(raw::parenthesis::LEFT),
-                        parsers::parameter::parse,
+                        parsers::parameters::multi::parse,
                         nom::bytes::complete::tag(raw::parenthesis::RIGHT),
                     )),
                 ),
