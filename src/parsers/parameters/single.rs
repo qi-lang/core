@@ -79,6 +79,18 @@ pub fn get_body(input: &str) -> nom::IResult<&str, ParameterBody> {
     Ok((input, result))
 }
 
+pub fn parse_no_default(input: &str) -> nom::IResult<&str, Parameter> {
+    let (input, result) = parsers::ident::parse(input)?;
+
+    Ok((
+        input,
+        Parameter {
+            ident: result,
+            body: None,
+        },
+    ))
+}
+
 pub fn parse(input: &str) -> nom::IResult<&str, Parameter> {
     let (input, result) = nom::sequence::tuple((
         parsers::ident::parse,
